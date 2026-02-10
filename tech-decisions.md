@@ -29,3 +29,8 @@
 **Contexto**: Los requerimientos técnicos exigen arquitectura hexagonal o clean architecture con separación de responsabilidades.
 **Decisión**: Implementar Clean Architecture con capas: domain → repository → service → handler.
 **Justificación**: Facilita testing (mock de interfaces entre capas), mantiene baja dependencia entre componentes, y cumple con principios SOLID.
+
+## TD-007: Colección Postman como herramienta de pruebas de integración
+**Contexto**: El challenge requiere que la API pueda probarse fácilmente vía Postman/cURL.
+**Decisión**: Crear una colección Postman completa en `docs/API_Feedbacks.postman_collection.json` con scripts de test automatizados y variables de colección.
+**Justificación**: Permite ejecutar todos los escenarios (happy path y excepciones) de forma reproducible. Los scripts de test validan automáticamente status codes, estructura de respuesta y reglas de negocio. Las variables de colección (`base_url`, `api_key`, `feedback_id`) facilitan la configuración y el encadenamiento de requests.
