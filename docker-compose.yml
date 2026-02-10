@@ -1,0 +1,59 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_PORT=8080
+      - DATABASE_URL=postgres://feedbacks:feedbacks123@db:5432/feedbacks_db?sslmode=disable
+      - API_KEY=my-secret-api-key
+      - LOG_LEVEL=info
+      - CORS_ORIGINS=*
+      - RATE_LIMIT_RPS=100
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    environment:
+      - SERVER_PORT=8080
+      - DATABASE_URL=postgres://feedbacks:feedbacks123@db:5432/feedbacks_db?sslmode=disable
+      - API_KEY=my-secret-api-key
+      - LOG_LEVEL=debug
+      - CORS_ORIGINS=*
+      - RATE_LIMIT_RPS=100
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - dev
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: feedbacks
+      POSTGRES_PASSWORD: feedbacks123
+      POSTGRES_DB: feedbacks_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U feedbacks -d feedbacks_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:

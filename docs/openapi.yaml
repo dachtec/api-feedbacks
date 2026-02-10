@@ -1,0 +1,327 @@
+openapi: "3.0.3"
+info:
+  title: API Feedbacks
+  description: API REST para capturar, actualizar y consultar feedbacks de usuarios sobre la plataforma digital.
+  version: "1.0.0"
+  contact:
+    name: API Feedbacks Team
+
+servers:
+  - url: http://localhost:8080
+    description: Local development
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      tags: [System]
+      security: []
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+
+  /ready:
+    get:
+      summary: Readiness probe
+      tags: [System]
+      security: []
+      responses:
+        "200":
+          description: Service is ready
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ready"
+
+  /api/v1/feedbacks:
+    post:
+      summary: Create a feedback
+      tags: [Feedbacks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateFeedbackRequest"
+            example:
+              user_id: "usr-001"
+              feedback_type: "bug"
+              rating: 3
+              comment: "El botón de pago no responde en Safari"
+      responses:
+        "201":
+          description: Feedback created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    get:
+      summary: List feedbacks with filters
+      tags: [Feedbacks]
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          description: Filter by user ID
+        - name: feedback_type
+          in: query
+          schema:
+            type: string
+            enum: [bug, suggestion, praise, question]
+          description: Filter by feedback type
+        - name: min_rating
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+          description: Minimum rating filter
+        - name: max_rating
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+          description: Maximum rating filter
+        - name: created_from
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: Filter feedbacks created after this date (RFC3339)
+        - name: created_to
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: Filter feedbacks created before this date (RFC3339)
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+          description: Number of results per page
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Pagination offset
+      responses:
+        "200":
+          description: List of feedbacks
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListResponse"
+        "400":
+          description: Invalid filter parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized
+
+  /api/v1/feedbacks/{id}:
+    get:
+      summary: Get feedback by ID
+      tags: [Feedbacks]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Feedback found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "404":
+          description: Feedback not found
+        "401":
+          description: Unauthorized
+
+    patch:
+      summary: Partially update a feedback
+      tags: [Feedbacks]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateFeedbackRequest"
+            example:
+              rating: 5
+              comment: "Se resolvió el problema"
+      responses:
+        "200":
+          description: Feedback updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "400":
+          description: Validation error
+        "404":
+          description: Feedback not found
+        "401":
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    CreateFeedbackRequest:
+      type: object
+      required: [user_id, feedback_type, rating, comment]
+      properties:
+        user_id:
+          type: string
+          description: User identifier
+        feedback_type:
+          type: string
+          enum: [bug, suggestion, praise, question]
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string
+          maxLength: 2000
+
+    UpdateFeedbackRequest:
+      type: object
+      properties:
+        feedback_type:
+          type: string
+          enum: [bug, suggestion, praise, question]
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string
+          maxLength: 2000
+
+    FeedbackResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+        feedback_type:
+          type: string
+        rating:
+          type: integer
+        comment:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          $ref: "#/components/schemas/FeedbackResponse"
+        meta:
+          type: object
+          nullable: true
+
+    ListResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/FeedbackResponse"
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            limit:
+              type: integer
+            offset:
+              type: integer
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+              nullable: true
