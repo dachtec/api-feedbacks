@@ -1,7 +1,5 @@
 package handler
 
-import "time"
-
 // CreateFeedbackRequest represents the request body for creating a feedback.
 type CreateFeedbackRequest struct {
 	UserID       string `json:"user_id"`
@@ -20,13 +18,13 @@ type UpdateFeedbackRequest struct {
 
 // FeedbackResponse represents the API response for a single feedback.
 type FeedbackResponse struct {
-	ID           string    `json:"id"`
-	UserID       string    `json:"user_id"`
-	FeedbackType string    `json:"feedback_type"`
-	Rating       int       `json:"rating"`
-	Comment      string    `json:"comment"`
-	CreatedAt    time.Time `json:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at"`
+	FeedbackID   string `json:"feedback_id"`
+	UserID       string `json:"user_id"`
+	FeedbackType string `json:"feedback_type"`
+	Rating       int    `json:"rating"`
+	Comment      string `json:"comment"`
+	CreatedAt    string `json:"created_at"`
+	UpdatedAt    string `json:"updated_at"`
 }
 
 // ListMeta contains pagination metadata for list responses.

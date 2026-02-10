@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"sync/atomic"
 	"time"
-
-	"github.com/google/uuid"
 
 	"github.com/dev/api-feedbacks/internal/domain"
 	"github.com/dev/api-feedbacks/internal/repository"
@@ -26,7 +26,8 @@ type FeedbackUpdateInput struct {
 }
 
 type feedbackService struct {
-	repo repository.FeedbackRepository
+	repo      repository.FeedbackRepository
+	idCounter atomic.Int64
 }
 
 // NewFeedbackService creates a new feedback service with the given repository.
@@ -34,10 +35,16 @@ func NewFeedbackService(repo repository.FeedbackRepository) FeedbackService {
 	return &feedbackService{repo: repo}
 }
 
+// generateFeedbackID creates a sequential feedback ID with format f-####.
+func (s *feedbackService) generateFeedbackID() string {
+	next := s.idCounter.Add(1)
+	return fmt.Sprintf("f-%04d", next)
+}
+
 // Create validates and creates a new feedback.
 func (s *feedbackService) Create(ctx context.Context, f *domain.Feedback) (*domain.Feedback, error) {
-	f.ID = uuid.New().String()
-	now := time.Now().UTC()
+	f.FeedbackID = s.generateFeedbackID()
+	now := time.Now().UTC().Truncate(time.Second)
 	f.CreatedAt = now
 	f.UpdatedAt = now
 
@@ -73,7 +80,7 @@ func (s *feedbackService) Update(ctx context.Context, id string, updates *Feedba
 	if updates.Comment != nil {
 		existing.Comment = *updates.Comment
 	}
-	existing.UpdatedAt = time.Now().UTC()
+	existing.UpdatedAt = time.Now().UTC().Truncate(time.Second)
 
 	if err := existing.Validate(); err != nil {
 		return nil, err

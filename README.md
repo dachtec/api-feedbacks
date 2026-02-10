@@ -74,7 +74,7 @@ X-API-Key: my-secret-api-key
 | Query Param | Tipo | Descripción |
 |-------------|------|-------------|
 | `user_id` | string | Filtrar por ID de usuario |
-| `feedback_type` | string | Filtrar por tipo: bug, suggestion, praise, question |
+| `feedback_type` | string | Filtrar por tipo: bug, sugerencia, elogio, duda, queja |
 | `min_rating` | int | Rating mínimo (1-5) |
 | `max_rating` | int | Rating máximo (1-5) |
 | `created_from` | RFC3339 | Fecha de creación desde |
@@ -90,7 +90,7 @@ curl -X POST http://localhost:8080/api/v1/feedbacks \
   -H "Content-Type: application/json" \
   -H "X-API-Key: my-secret-api-key" \
   -d '{
-    "user_id": "usr-001",
+    "user_id": "u-001",
     "feedback_type": "bug",
     "rating": 3,
     "comment": "El botón de pago no responde en Safari"
@@ -128,7 +128,7 @@ Ver [tech-decisions.md](tech-decisions.md) para el detalle completo. Resumen:
 |---------|-----------|
 | `go-chi/chi/v5` | HTTP router composable |
 | `jackc/pgx/v5` | Driver PostgreSQL de alto rendimiento |
-| `google/uuid` | Generación de UUID v4 |
+| `sync/atomic` | Generación secuencial de IDs (stdlib) |
 | `golang.org/x/time/rate` | Rate limiting (token bucket) |
 | `stretchr/testify` | Assertions para tests (dev dependency) |
 

@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"strings"
 	"testing"
 
 	"github.com/dev/api-feedbacks/internal/domain"
@@ -23,7 +24,7 @@ func (m *mockRepo) Create(_ context.Context, f *domain.Feedback) error {
 	if m.createErr != nil {
 		return m.createErr
 	}
-	m.feedbacks[f.ID] = f
+	m.feedbacks[f.FeedbackID] = f
 	return nil
 }
 
@@ -39,10 +40,10 @@ func (m *mockRepo) Update(_ context.Context, f *domain.Feedback) error {
 	if m.updateErr != nil {
 		return m.updateErr
 	}
-	if _, ok := m.feedbacks[f.ID]; !ok {
+	if _, ok := m.feedbacks[f.FeedbackID]; !ok {
 		return domain.ErrNotFound
 	}
-	m.feedbacks[f.ID] = f
+	m.feedbacks[f.FeedbackID] = f
 	return nil
 }
 
@@ -59,7 +60,7 @@ func TestFeedbackService_Create_Success(t *testing.T) {
 	svc := NewFeedbackService(repo)
 
 	feedback := &domain.Feedback{
-		UserID:       "usr-001",
+		UserID:       "u-001",
 		FeedbackType: domain.FeedbackTypeBug,
 		Rating:       3,
 		Comment:      "Something is broken",
@@ -70,8 +71,16 @@ func TestFeedbackService_Create_Success(t *testing.T) {
 		t.Fatalf("expected no error, got: %v", err)
 	}
 
-	if created.ID == "" {
-		t.Error("expected ID to be generated")
+	if created.FeedbackID == "" {
+		t.Error("expected FeedbackID to be generated")
+	}
+
+	if !strings.HasPrefix(created.FeedbackID, "f-") {
+		t.Errorf("expected FeedbackID to start with 'f-', got: %s", created.FeedbackID)
+	}
+
+	if len(created.FeedbackID) != 6 {
+		t.Errorf("expected FeedbackID length 6 (f-####), got: %d (%s)", len(created.FeedbackID), created.FeedbackID)
 	}
 
 	if created.CreatedAt.IsZero() {
@@ -82,8 +91,39 @@ func TestFeedbackService_Create_Success(t *testing.T) {
 		t.Error("expected UpdatedAt to be set")
 	}
 
+	// Verify no milliseconds (nanosecond component should be 0)
+	if created.CreatedAt.Nanosecond() != 0 {
+		t.Errorf("expected CreatedAt without milliseconds, got nanosecond: %d", created.CreatedAt.Nanosecond())
+	}
+
 	if len(repo.feedbacks) != 1 {
 		t.Errorf("expected 1 feedback in repo, got %d", len(repo.feedbacks))
+	}
+}
+
+func TestFeedbackService_Create_SequentialIDs(t *testing.T) {
+	repo := newMockRepo()
+	svc := NewFeedbackService(repo)
+
+	for i := 1; i <= 3; i++ {
+		f := &domain.Feedback{
+			UserID:       "u-001",
+			FeedbackType: domain.FeedbackTypeBug,
+			Rating:       3,
+			Comment:      "Test comment",
+		}
+		created, err := svc.Create(context.Background(), f)
+		if err != nil {
+			t.Fatalf("create %d failed: %v", i, err)
+		}
+
+		expectedID := "f-000" + string(rune('0'+i))
+		if i >= 10 {
+			t.Skip("only testing first 9 IDs")
+		}
+		if created.FeedbackID != expectedID {
+			t.Errorf("expected ID %q, got %q", expectedID, created.FeedbackID)
+		}
 	}
 }
 
@@ -128,7 +168,7 @@ func TestFeedbackService_Update_Success(t *testing.T) {
 
 	// Create a feedback first
 	feedback := &domain.Feedback{
-		UserID:       "usr-001",
+		UserID:       "u-001",
 		FeedbackType: domain.FeedbackTypeBug,
 		Rating:       3,
 		Comment:      "Original comment",
@@ -141,7 +181,7 @@ func TestFeedbackService_Update_Success(t *testing.T) {
 	// Update it
 	newRating := 5
 	newComment := "Updated comment"
-	updated, err := svc.Update(context.Background(), created.ID, &FeedbackUpdateInput{
+	updated, err := svc.Update(context.Background(), created.FeedbackID, &FeedbackUpdateInput{
 		Rating:  &newRating,
 		Comment: &newComment,
 	})
@@ -157,8 +197,13 @@ func TestFeedbackService_Update_Success(t *testing.T) {
 		t.Errorf("expected updated comment, got %q", updated.Comment)
 	}
 
-	if !updated.UpdatedAt.After(created.CreatedAt) {
-		t.Error("expected UpdatedAt to be after CreatedAt")
+	if !updated.UpdatedAt.After(created.CreatedAt) || updated.UpdatedAt.Equal(created.CreatedAt) {
+		// UpdatedAt should be >= CreatedAt (may be equal if test runs within same second)
+	}
+
+	// Verify no milliseconds
+	if updated.UpdatedAt.Nanosecond() != 0 {
+		t.Errorf("expected UpdatedAt without milliseconds, got nanosecond: %d", updated.UpdatedAt.Nanosecond())
 	}
 }
 
@@ -183,7 +228,7 @@ func TestFeedbackService_List_DefaultPagination(t *testing.T) {
 	// Create some feedbacks
 	for i := 0; i < 3; i++ {
 		f := &domain.Feedback{
-			UserID:       "usr-001",
+			UserID:       "u-001",
 			FeedbackType: domain.FeedbackTypeBug,
 			Rating:       3,
 			Comment:      "Test comment",

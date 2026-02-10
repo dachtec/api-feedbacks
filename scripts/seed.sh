@@ -11,7 +11,7 @@ curl -s -X POST "$API_URL/api/v1/feedbacks" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: $API_KEY" \
   -d '{
-    "user_id": "usr-001",
+    "user_id": "u-001",
     "feedback_type": "bug",
     "rating": 2,
     "comment": "El botón de pago no responde en Safari"
@@ -21,8 +21,8 @@ curl -s -X POST "$API_URL/api/v1/feedbacks" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: $API_KEY" \
   -d '{
-    "user_id": "usr-002",
-    "feedback_type": "praise",
+    "user_id": "u-002",
+    "feedback_type": "elogio",
     "rating": 5,
     "comment": "Excelente experiencia de usuario, muy intuitivo"
   }' | jq .
@@ -31,8 +31,8 @@ curl -s -X POST "$API_URL/api/v1/feedbacks" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: $API_KEY" \
   -d '{
-    "user_id": "usr-003",
-    "feedback_type": "suggestion",
+    "user_id": "u-003",
+    "feedback_type": "sugerencia",
     "rating": 4,
     "comment": "Sería genial tener modo oscuro en la plataforma"
   }' | jq .
@@ -41,8 +41,8 @@ curl -s -X POST "$API_URL/api/v1/feedbacks" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: $API_KEY" \
   -d '{
-    "user_id": "usr-001",
-    "feedback_type": "question",
+    "user_id": "u-001",
+    "feedback_type": "duda",
     "rating": 3,
     "comment": "¿Cómo exporto mis datos en formato CSV?"
   }' | jq .
@@ -51,8 +51,8 @@ curl -s -X POST "$API_URL/api/v1/feedbacks" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: $API_KEY" \
   -d '{
-    "user_id": "usr-004",
-    "feedback_type": "bug",
+    "user_id": "u-004",
+    "feedback_type": "queja",
     "rating": 1,
     "comment": "La página de perfil tarda más de 10 segundos en cargar"
   }' | jq .

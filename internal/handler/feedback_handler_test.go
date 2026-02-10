@@ -18,6 +18,7 @@ import (
 // mockService implements service.FeedbackService for handler tests.
 type mockService struct {
 	feedbacks map[string]*domain.Feedback
+	idCounter int
 }
 
 func newMockService() *mockService {
@@ -28,8 +29,9 @@ func (m *mockService) Create(_ context.Context, f *domain.Feedback) (*domain.Fee
 	if err := f.Validate(); err != nil {
 		return nil, err
 	}
-	f.ID = "test-uuid"
-	m.feedbacks[f.ID] = f
+	m.idCounter++
+	f.FeedbackID = "f-0001"
+	m.feedbacks[f.FeedbackID] = f
 	return f, nil
 }
 
@@ -70,7 +72,7 @@ func TestHandler_Create_Success(t *testing.T) {
 	svc := newMockService()
 	h := NewFeedbackHandler(svc)
 
-	body := `{"user_id":"usr-001","feedback_type":"bug","rating":3,"comment":"Test"}`
+	body := `{"user_id":"u-001","feedback_type":"bug","rating":3,"comment":"Test"}`
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/feedbacks", bytes.NewBufferString(body))
 	req.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()
@@ -129,7 +131,7 @@ func TestHandler_GetByID_NotFound(t *testing.T) {
 	r := chi.NewRouter()
 	r.Get("/api/v1/feedbacks/{id}", h.GetByID)
 
-	req := httptest.NewRequest(http.MethodGet, "/api/v1/feedbacks/non-existent", nil)
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/feedbacks/f-9999", nil)
 	w := httptest.NewRecorder()
 
 	r.ServeHTTP(w, req)
@@ -147,7 +149,7 @@ func TestHandler_Update_EmptyBody(t *testing.T) {
 	r.Patch("/api/v1/feedbacks/{id}", h.Update)
 
 	body := `{}`
-	req := httptest.NewRequest(http.MethodPatch, "/api/v1/feedbacks/test-id", bytes.NewBufferString(body))
+	req := httptest.NewRequest(http.MethodPatch, "/api/v1/feedbacks/f-0001", bytes.NewBufferString(body))
 	req.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()
 

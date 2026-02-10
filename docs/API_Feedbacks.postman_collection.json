@@ -1,7 +1,7 @@
 {
     "info": {
-        "name": "API Feedbacks",
-        "description": "Colección completa para probar la API de Feedbacks. Incluye escenarios de éxito (happy path) y escenarios alternativos/de excepción.\n\n## Setup\n1. Levantar la API: `docker compose up -d --build`\n2. Ejecutar seed (opcional): `bash scripts/seed.sh`\n3. Usar la variable `base_url` y `api_key` configuradas.\n\n## Flujo recomendado\n1. Health Check / Ready\n2. Crear varios Feedbacks\n3. Listar con filtros\n4. Obtener por ID\n5. Actualizar\n6. Probar escenarios de error",
+        "name": "API Feedbacks - Completa",
+        "description": "Colección completa para probar la API de Feedbacks.\n\n## Setup\n1. Levantar la API: `docker compose up -d --build`\n2. Usar las variables `base_url` y `api_key` configuradas.\n\n## Flujo recomendado\n1. Health Check / Ready\n2. Crear varios Feedbacks\n3. Listar con filtros\n4. Obtener por ID\n5. Actualizar\n6. Probar escenarios de error",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "variable": [
@@ -19,6 +19,11 @@
             "key": "feedback_id",
             "value": "",
             "type": "string"
+        },
+        {
+            "key": "feedback_id_2",
+            "value": "",
+            "type": "string"
         }
     ],
     "item": [
@@ -27,20 +32,6 @@
             "item": [
                 {
                     "name": "Health Check",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Status is ok', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.status).to.eql('ok');",
-                                    "});"
-                                ]
-                            }
-                        }
-                    ],
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -53,24 +44,24 @@
                                 "health"
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "Readiness Check",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Status is ready', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.status).to.eql('ready');",
+                                    "pm.test('Status is ok', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.status).to.eql('ok');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Readiness Check",
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -83,7 +74,21 @@
                                 "ready"
                             ]
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('Status is ready', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.status).to.eql('ready');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -92,22 +97,6 @@
             "item": [
                 {
                     "name": "Sin API Key → 401",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status 401', () => pm.response.to.have.status(401));",
-                                    "pm.test('Error code UNAUTHORIZED', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.false;",
-                                    "    pm.expect(body.error.code).to.eql('UNAUTHORIZED');",
-                                    "    pm.expect(body.error.message).to.eql('missing API key');",
-                                    "});"
-                                ]
-                            }
-                        }
-                    ],
                     "request": {
                         "method": "GET",
                         "header": [],
@@ -122,26 +111,26 @@
                                 "feedbacks"
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "API Key Inválida → 401",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 401', () => pm.response.to.have.status(401));",
-                                    "pm.test('Error code UNAUTHORIZED', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.false;",
-                                    "    pm.expect(body.error.code).to.eql('UNAUTHORIZED');",
-                                    "    pm.expect(body.error.message).to.eql('invalid API key');",
+                                    "pm.test('Error UNAUTHORIZED', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.false;",
+                                    "pm.expect(body.error.code).to.eql('UNAUTHORIZED');",
+                                    "pm.expect(body.error.message).to.eql('missing API key');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "API Key Inválida → 401",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -161,7 +150,61 @@
                                 "feedbacks"
                             ]
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 401', () => pm.response.to.have.status(401));",
+                                    "pm.test('Error UNAUTHORIZED', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.false;",
+                                    "pm.expect(body.error.code).to.eql('UNAUTHORIZED');",
+                                    "pm.expect(body.error.message).to.eql('invalid API key');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "API Key vacía → 401",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": ""
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 401', () => pm.response.to.have.status(401));",
+                                    "pm.test('Error UNAUTHORIZED', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.false;",
+                                    "pm.expect(body.error.code).to.eql('UNAUTHORIZED');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -169,7 +212,35 @@
             "name": "03 - Crear Feedback (Happy Path)",
             "item": [
                 {
-                    "name": "Crear Feedback tipo Bug",
+                    "name": "Crear Feedback tipo bug",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 2,\n    \"comment\": \"El botón de pago no responde en Safari\"\n}"
+                        }
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -177,19 +248,23 @@
                                 "exec": [
                                     "pm.test('Status 201', () => pm.response.to.have.status(201));",
                                     "pm.test('Feedback creado correctamente', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.true;",
-                                    "    pm.expect(body.data.user_id).to.eql('usr-001');",
-                                    "    pm.expect(body.data.feedback_type).to.eql('bug');",
-                                    "    pm.expect(body.data.rating).to.eql(2);",
-                                    "    pm.expect(body.data.id).to.be.a('string');",
-                                    "    pm.expect(body.data.created_at).to.be.a('string');",
-                                    "    pm.collectionVariables.set('feedback_id', body.data.id);",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "pm.expect(body.data.user_id).to.eql('u-001');",
+                                    "pm.expect(body.data.feedback_type).to.eql('bug');",
+                                    "pm.expect(body.data.rating).to.eql(2);",
+                                    "pm.expect(body.data.feedback_id).to.match(/^f-\\d{4}$/);",
+                                    "pm.expect(body.data.created_at).to.be.a('string');",
+                                    "pm.expect(body.data.updated_at).to.be.a('string');",
+                                    "pm.collectionVariables.set('feedback_id', body.data.feedback_id);",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Crear Feedback tipo sugerencia",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -202,10 +277,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"usr-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 2,\n    \"comment\": \"El botón de pago no responde en Safari\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -216,26 +287,36 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-002\",\n    \"feedback_type\": \"sugerencia\",\n    \"rating\": 4,\n    \"comment\": \"Sería útil poder exportar reportes a PDF\"\n}"
                         }
-                    }
-                },
-                {
-                    "name": "Crear Feedback tipo Suggestion",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                                    "pm.test('Tipo suggestion', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.data.feedback_type).to.eql('suggestion');",
-                                    "    pm.expect(body.data.rating).to.eql(4);",
+                                    "pm.test('Feedback creado correctamente', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "pm.expect(body.data.user_id).to.eql('u-002');",
+                                    "pm.expect(body.data.feedback_type).to.eql('sugerencia');",
+                                    "pm.expect(body.data.rating).to.eql(4);",
+                                    "pm.expect(body.data.feedback_id).to.match(/^f-\\d{4}$/);",
+                                    "pm.expect(body.data.created_at).to.be.a('string');",
+                                    "pm.expect(body.data.updated_at).to.be.a('string');",
+                                    "pm.collectionVariables.set('feedback_id_2', body.data.feedback_id);",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Crear Feedback tipo elogio",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -248,10 +329,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"usr-002\",\n    \"feedback_type\": \"suggestion\",\n    \"rating\": 4,\n    \"comment\": \"Sería útil poder exportar reportes a PDF\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -262,26 +339,35 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"elogio\",\n    \"rating\": 5,\n    \"comment\": \"Excelente experiencia, la plataforma es muy intuitiva\"\n}"
                         }
-                    }
-                },
-                {
-                    "name": "Crear Feedback tipo Praise",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                                    "pm.test('Tipo praise', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.data.feedback_type).to.eql('praise');",
-                                    "    pm.expect(body.data.rating).to.eql(5);",
+                                    "pm.test('Feedback creado correctamente', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "pm.expect(body.data.user_id).to.eql('u-001');",
+                                    "pm.expect(body.data.feedback_type).to.eql('elogio');",
+                                    "pm.expect(body.data.rating).to.eql(5);",
+                                    "pm.expect(body.data.feedback_id).to.match(/^f-\\d{4}$/);",
+                                    "pm.expect(body.data.created_at).to.be.a('string');",
+                                    "pm.expect(body.data.updated_at).to.be.a('string');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Crear Feedback tipo duda",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -294,10 +380,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"usr-001\",\n    \"feedback_type\": \"praise\",\n    \"rating\": 5,\n    \"comment\": \"Excelente experiencia, la plataforma es muy intuitiva\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -308,25 +390,35 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-003\",\n    \"feedback_type\": \"duda\",\n    \"rating\": 3,\n    \"comment\": \"¿Cómo puedo cambiar mi método de pago?\"\n}"
                         }
-                    }
-                },
-                {
-                    "name": "Crear Feedback tipo Question",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 201', () => pm.response.to.have.status(201));",
-                                    "pm.test('Tipo question', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.data.feedback_type).to.eql('question');",
+                                    "pm.test('Feedback creado correctamente', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "pm.expect(body.data.user_id).to.eql('u-003');",
+                                    "pm.expect(body.data.feedback_type).to.eql('duda');",
+                                    "pm.expect(body.data.rating).to.eql(3);",
+                                    "pm.expect(body.data.feedback_id).to.match(/^f-\\d{4}$/);",
+                                    "pm.expect(body.data.created_at).to.be.a('string');",
+                                    "pm.expect(body.data.updated_at).to.be.a('string');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Crear Feedback tipo queja",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -339,10 +431,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"usr-003\",\n    \"feedback_type\": \"question\",\n    \"rating\": 3,\n    \"comment\": \"¿Cómo puedo cambiar mi método de pago?\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -353,8 +441,32 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-004\",\n    \"feedback_type\": \"queja\",\n    \"rating\": 1,\n    \"comment\": \"El tiempo de carga es inaceptable\"\n}"
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                                    "pm.test('Feedback creado correctamente', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "pm.expect(body.data.user_id).to.eql('u-004');",
+                                    "pm.expect(body.data.feedback_type).to.eql('queja');",
+                                    "pm.expect(body.data.rating).to.eql(1);",
+                                    "pm.expect(body.data.feedback_id).to.match(/^f-\\d{4}$/);",
+                                    "pm.expect(body.data.created_at).to.be.a('string');",
+                                    "pm.expect(body.data.updated_at).to.be.a('string');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -363,6 +475,34 @@
             "item": [
                 {
                     "name": "Body vacío → 400",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{}"
+                        }
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -370,13 +510,16 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Errores de validación', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.false;",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.false;",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Sin user_id → 400",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -389,10 +532,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -403,11 +542,12 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"feedback_type\": \"bug\",\n    \"rating\": 3,\n    \"comment\": \"Falta el user_id\"\n}"
                         }
-                    }
-                },
-                {
-                    "name": "Sin user_id → 400 Validation",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -415,15 +555,18 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Validation error user_id', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
-                                    "    const fields = body.error.details.map(d => d.field);",
-                                    "    pm.expect(fields).to.include('user_id');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('user_id');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "user_id formato inválido (usr-001) → 400",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -436,10 +579,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"feedback_type\": \"bug\",\n    \"rating\": 3,\n    \"comment\": \"Falta el user_id\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -450,11 +589,106 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"usr-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 3,\n    \"comment\": \"Formato incorrecto de user_id\"\n}"
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error user_id format', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('user_id');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "user_id formato inválido (texto libre) → 400",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"john_doe\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 3,\n    \"comment\": \"user_id no cumple u-###\"\n}"
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error user_id', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('user_id');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "feedback_type inválido → 400",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"invalid_type\",\n    \"rating\": 3,\n    \"comment\": \"Tipo inválido\"\n}"
+                        }
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -462,15 +696,18 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Validation error feedback_type', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
-                                    "    const fields = body.error.details.map(d => d.field);",
-                                    "    pm.expect(fields).to.include('feedback_type');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('feedback_type');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "feedback_type en inglés (suggestion) → 400",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -483,10 +720,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"usr-001\",\n    \"feedback_type\": \"invalid_type\",\n    \"rating\": 3,\n    \"comment\": \"Tipo inválido\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -497,27 +730,31 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"suggestion\",\n    \"rating\": 3,\n    \"comment\": \"Tipo en inglés no válido\"\n}"
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error feedback_type', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('feedback_type');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "Rating fuera de rango (0) → 400",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
-                                    "pm.test('Validation error rating', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
-                                    "    const fields = body.error.details.map(d => d.field);",
-                                    "    pm.expect(fields).to.include('rating');",
-                                    "});"
-                                ]
-                            }
-                        }
-                    ],
                     "request": {
                         "method": "POST",
                         "header": [
@@ -530,10 +767,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"usr-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 0,\n    \"comment\": \"Rating menor a 1\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -544,26 +777,31 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 0,\n    \"comment\": \"Rating menor a 1\"\n}"
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error rating', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('rating');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "Rating fuera de rango (6) → 400",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
-                                    "pm.test('Validation error rating', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    const fields = body.error.details.map(d => d.field);",
-                                    "    pm.expect(fields).to.include('rating');",
-                                    "});"
-                                ]
-                            }
-                        }
-                    ],
                     "request": {
                         "method": "POST",
                         "header": [
@@ -576,10 +814,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"usr-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 6,\n    \"comment\": \"Rating mayor a 5\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -590,11 +824,106 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 6,\n    \"comment\": \"Rating mayor a 5\"\n}"
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error rating', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('rating');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Rating negativo (-1) → 400",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": -1,\n    \"comment\": \"Rating negativo\"\n}"
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error rating', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('rating');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "Comentario vacío → 400",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 3,\n    \"comment\": \"\"\n}"
+                        }
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -602,14 +931,17 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Validation error comment', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    const fields = body.error.details.map(d => d.field);",
-                                    "    pm.expect(fields).to.include('comment');",
+                                    "const body = pm.response.json();",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('comment');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Comentario solo espacios → 400",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -622,10 +954,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"usr-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 3,\n    \"comment\": \"\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -636,11 +964,58 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 3,\n    \"comment\": \"   \"\n}"
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error comment', () => {",
+                                    "const body = pm.response.json();",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('comment');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "JSON malformado → 400",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{ invalid json }"
+                        }
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -648,13 +1023,16 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Error INVALID_JSON', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('INVALID_JSON');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_JSON');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Múltiples errores de validación → 400",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -667,10 +1045,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{ invalid json }"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -681,11 +1055,12 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"\",\n    \"feedback_type\": \"nonexistent\",\n    \"rating\": 99,\n    \"comment\": \"\"\n}"
                         }
-                    }
-                },
-                {
-                    "name": "Múltiples errores de validación → 400",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -693,14 +1068,17 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Multiple validation errors', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
-                                    "    pm.expect(body.error.details.length).to.be.greaterThan(1);",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "pm.expect(body.error.details.length).to.be.greaterThan(1);",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Comentario excede 2000 caracteres → 400",
                     "request": {
                         "method": "POST",
                         "header": [
@@ -713,10 +1091,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"user_id\": \"\",\n    \"feedback_type\": \"nonexistent\",\n    \"rating\": 99,\n    \"comment\": \"\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks",
                             "host": [
@@ -727,8 +1101,28 @@
                                 "v1",
                                 "feedbacks"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 3,\n    \"comment\": \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n}"
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error comment length', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const fields = body.error.details.map(d => d.field);",
+                                    "pm.expect(fields).to.include('comment');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -737,21 +1131,6 @@
             "item": [
                 {
                     "name": "Obtener por ID (Happy Path)",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Feedback retornado', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.true;",
-                                    "    pm.expect(body.data.id).to.eql(pm.collectionVariables.get('feedback_id'));",
-                                    "});"
-                                ]
-                            }
-                        }
-                    ],
                     "request": {
                         "method": "GET",
                         "header": [
@@ -772,25 +1151,28 @@
                                 "{{feedback_id}}"
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "ID inexistente → 404",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
-                                    "pm.test('Status 404', () => pm.response.to.have.status(404));",
-                                    "pm.test('Error NOT_FOUND', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.false;",
-                                    "    pm.expect(body.error.code).to.eql('NOT_FOUND');",
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('Feedback retornado', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "pm.expect(body.data.feedback_id).to.eql(pm.collectionVariables.get('feedback_id'));",
+                                    "pm.expect(body.data.feedback_id).to.match(/^f-\\d{4}$/);",
+                                    "pm.expect(body.data.user_id).to.match(/^u-\\d{3}$/);",
+                                    "pm.expect(body.data).to.have.all.keys('feedback_id','user_id','feedback_type','rating','comment','created_at','updated_at');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "ID inexistente → 404",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -800,7 +1182,7 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/feedbacks/00000000-0000-0000-0000-000000000000",
+                            "raw": "{{base_url}}/api/v1/feedbacks/f-9999",
                             "host": [
                                 "{{base_url}}"
                             ],
@@ -808,10 +1190,64 @@
                                 "api",
                                 "v1",
                                 "feedbacks",
-                                "00000000-0000-0000-0000-000000000000"
+                                "f-9999"
                             ]
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 404', () => pm.response.to.have.status(404));",
+                                    "pm.test('Error NOT_FOUND', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.false;",
+                                    "pm.expect(body.error.code).to.eql('NOT_FOUND');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ID con formato inválido → 404",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks/abc-invalid",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks",
+                                "abc-invalid"
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 404', () => pm.response.to.have.status(404));",
+                                    "pm.test('Error NOT_FOUND', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.false;",
+                                    "pm.expect(body.error.code).to.eql('NOT_FOUND');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -820,6 +1256,35 @@
             "item": [
                 {
                     "name": "Actualizar rating solamente",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks",
+                                "{{feedback_id}}"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"rating\": 5\n}"
+                        }
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -827,13 +1292,17 @@
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
                                     "pm.test('Rating actualizado', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.data.rating).to.eql(5);",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.data.rating).to.eql(5);",
+                                    "pm.expect(body.data.feedback_id).to.eql(pm.collectionVariables.get('feedback_id'));",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Actualizar comment solamente",
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -846,10 +1315,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"rating\": 5\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
                             "host": [
@@ -861,11 +1326,12 @@
                                 "feedbacks",
                                 "{{feedback_id}}"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"comment\": \"Problema resuelto, gracias\"\n}"
                         }
-                    }
-                },
-                {
-                    "name": "Actualizar comment solamente",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -873,13 +1339,16 @@
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
                                     "pm.test('Comment actualizado', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.data.comment).to.eql('Problema resuelto, gracias');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.data.comment).to.eql('Problema resuelto, gracias');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Actualizar feedback_type solamente",
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -892,10 +1361,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"comment\": \"Problema resuelto, gracias\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
                             "host": [
@@ -907,25 +1372,29 @@
                                 "feedbacks",
                                 "{{feedback_id}}"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"feedback_type\": \"elogio\"\n}"
                         }
-                    }
-                },
-                {
-                    "name": "Actualizar feedback_type solamente",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Type actualizado a praise', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.data.feedback_type).to.eql('praise');",
+                                    "pm.test('Type actualizado a elogio', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.data.feedback_type).to.eql('elogio');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Actualizar múltiples campos",
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -938,10 +1407,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"feedback_type\": \"praise\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
                             "host": [
@@ -953,11 +1418,12 @@
                                 "feedbacks",
                                 "{{feedback_id}}"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"feedback_type\": \"sugerencia\",\n    \"rating\": 4,\n    \"comment\": \"Actualización final\"\n}"
                         }
-                    }
-                },
-                {
-                    "name": "Actualizar múltiples campos",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -965,15 +1431,18 @@
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
                                     "pm.test('Campos actualizados', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.data.rating).to.eql(4);",
-                                    "    pm.expect(body.data.comment).to.eql('Actualización final');",
-                                    "    pm.expect(body.data.feedback_type).to.eql('suggestion');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.data.rating).to.eql(4);",
+                                    "pm.expect(body.data.comment).to.eql('Actualización final');",
+                                    "pm.expect(body.data.feedback_type).to.eql('sugerencia');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Verificar updated_at cambia",
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -986,10 +1455,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"feedback_type\": \"suggestion\",\n    \"rating\": 4,\n    \"comment\": \"Actualización final\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
                             "host": [
@@ -1001,8 +1466,29 @@
                                 "feedbacks",
                                 "{{feedback_id}}"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"rating\": 3\n}"
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('updated_at es reciente', () => {",
+                                    "const body = pm.response.json();",
+                                    "const updatedAt = new Date(body.data.updated_at);",
+                                    "const now = new Date();",
+                                    "const diffMs = now - updatedAt;",
+                                    "pm.expect(diffMs).to.be.below(60000);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -1011,6 +1497,35 @@
             "item": [
                 {
                     "name": "Body vacío (sin campos) → 400",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks",
+                                "{{feedback_id}}"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{}"
+                        }
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -1018,13 +1533,16 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Error EMPTY_UPDATE', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('EMPTY_UPDATE');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('EMPTY_UPDATE');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "ID inexistente → 404",
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -1037,12 +1555,8 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{}"
-                        },
                         "url": {
-                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
+                            "raw": "{{base_url}}/api/v1/feedbacks/f-9999",
                             "host": [
                                 "{{base_url}}"
                             ],
@@ -1050,13 +1564,14 @@
                                 "api",
                                 "v1",
                                 "feedbacks",
-                                "{{feedback_id}}"
+                                "f-9999"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"rating\": 5\n}"
                         }
-                    }
-                },
-                {
-                    "name": "Actualizar ID inexistente → 404",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -1064,59 +1579,16 @@
                                 "exec": [
                                     "pm.test('Status 404', () => pm.response.to.have.status(404));",
                                     "pm.test('Error NOT_FOUND', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('NOT_FOUND');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('NOT_FOUND');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
-                    "request": {
-                        "method": "PATCH",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "X-API-Key",
-                                "value": "{{api_key}}"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"rating\": 5\n}"
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/feedbacks/00000000-0000-0000-0000-000000000000",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "feedbacks",
-                                "00000000-0000-0000-0000-000000000000"
-                            ]
-                        }
-                    }
+                    ]
                 },
                 {
                     "name": "Rating inválido en update → 400",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
-                                    "pm.test('Validation error', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
-                                    "});"
-                                ]
-                            }
-                        }
-                    ],
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -1129,26 +1601,23 @@
                                 "value": "{{api_key}}"
                             }
                         ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks",
+                                "{{feedback_id}}"
+                            ]
+                        },
                         "body": {
                             "mode": "raw",
                             "raw": "{\n    \"rating\": 10\n}"
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "feedbacks",
-                                "{{feedback_id}}"
-                            ]
                         }
-                    }
-                },
-                {
-                    "name": "feedback_type inválido en update → 400",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -1156,13 +1625,16 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Validation error', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "feedback_type inválido en update → 400",
                     "request": {
                         "method": "PATCH",
                         "header": [
@@ -1175,10 +1647,6 @@
                                 "value": "{{api_key}}"
                             }
                         ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"feedback_type\": \"invalid\"\n}"
-                        },
                         "url": {
                             "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
                             "host": [
@@ -1190,11 +1658,104 @@
                                 "feedbacks",
                                 "{{feedback_id}}"
                             ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"feedback_type\": \"invalid\"\n}"
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Comment vacío en update → 400",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks",
+                                "{{feedback_id}}"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"comment\": \"\"\n}"
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Validation error comment', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('VALIDATION_ERROR');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "JSON malformado en update → 400",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks",
+                                "{{feedback_id}}"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "not a json"
+                        }
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -1202,42 +1763,13 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Error INVALID_JSON', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('INVALID_JSON');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_JSON');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
-                    "request": {
-                        "method": "PATCH",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            },
-                            {
-                                "key": "X-API-Key",
-                                "value": "{{api_key}}"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "not a json"
-                        },
-                        "url": {
-                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
-                            "host": [
-                                "{{base_url}}"
-                            ],
-                            "path": [
-                                "api",
-                                "v1",
-                                "feedbacks",
-                                "{{feedback_id}}"
-                            ]
-                        }
-                    }
+                    ]
                 }
             ]
         },
@@ -1246,24 +1778,6 @@
             "item": [
                 {
                     "name": "Listar todos (sin filtros)",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Respuesta con paginación', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.true;",
-                                    "    pm.expect(body.data).to.be.an('array');",
-                                    "    pm.expect(body.meta).to.have.property('total');",
-                                    "    pm.expect(body.meta).to.have.property('limit');",
-                                    "    pm.expect(body.meta).to.have.property('offset');",
-                                    "});"
-                                ]
-                            }
-                        }
-                    ],
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1283,24 +1797,28 @@
                                 "feedbacks"
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "Filtrar por user_id",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Todos son del user_id', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    body.data.forEach(f => pm.expect(f.user_id).to.eql('usr-001'));",
+                                    "pm.test('Respuesta con paginación', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "pm.expect(body.data).to.be.an('array');",
+                                    "pm.expect(body.meta).to.have.property('total');",
+                                    "pm.expect(body.meta).to.have.property('limit');",
+                                    "pm.expect(body.meta).to.have.property('offset');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Filtrar por user_id",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1310,7 +1828,7 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/feedbacks?user_id=usr-001",
+                            "raw": "{{base_url}}/api/v1/feedbacks?user_id=u-001",
                             "host": [
                                 "{{base_url}}"
                             ],
@@ -1322,28 +1840,28 @@
                             "query": [
                                 {
                                     "key": "user_id",
-                                    "value": "usr-001"
+                                    "value": "u-001"
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "Filtrar por feedback_type",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Todos son tipo bug', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    body.data.forEach(f => pm.expect(f.feedback_type).to.eql('bug'));",
+                                    "pm.test('Todos son del user_id', () => {",
+                                    "const body = pm.response.json();",
+                                    "body.data.forEach(f => pm.expect(f.user_id).to.eql('u-001'));",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Filtrar por feedback_type",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1369,27 +1887,67 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "Filtrar por rango de rating",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Ratings en rango 3-5', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    body.data.forEach(f => {",
-                                    "        pm.expect(f.rating).to.be.at.least(3);",
-                                    "        pm.expect(f.rating).to.be.at.most(5);",
-                                    "    });",
+                                    "pm.test('Todos son tipo bug', () => {",
+                                    "const body = pm.response.json();",
+                                    "body.data.forEach(f => pm.expect(f.feedback_type).to.eql('bug'));",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Filtrar por feedback_type sugerencia",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks?feedback_type=sugerencia",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "feedback_type",
+                                    "value": "sugerencia"
+                                }
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('Todos son tipo sugerencia', () => {",
+                                    "const body = pm.response.json();",
+                                    "body.data.forEach(f => pm.expect(f.feedback_type).to.eql('sugerencia'));",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Filtrar por rango de rating",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1419,24 +1977,27 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "Filtrar por rango de fechas",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Respuesta exitosa', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.true;",
+                                    "pm.test('Ratings en rango 3-5', () => {",
+                                    "const body = pm.response.json();",
+                                    "body.data.forEach(f => {",
+                                    "pm.expect(f.rating).to.be.at.least(3);",
+                                    "pm.expect(f.rating).to.be.at.most(5);",
+                                    "});",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Filtrar por rango de fechas",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1466,29 +2027,24 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "Filtros combinados",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Filtros combinados aplicados', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.true;",
-                                    "    body.data.forEach(f => {",
-                                    "        pm.expect(f.user_id).to.eql('usr-001');",
-                                    "        pm.expect(f.rating).to.be.at.least(1);",
-                                    "        pm.expect(f.rating).to.be.at.most(3);",
-                                    "    });",
+                                    "pm.test('Respuesta exitosa', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Filtrar solo min_rating",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1498,7 +2054,93 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/feedbacks?user_id=usr-001&min_rating=1&max_rating=3&feedback_type=bug",
+                            "raw": "{{base_url}}/api/v1/feedbacks?min_rating=4",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "min_rating",
+                                    "value": "4"
+                                }
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('Ratings >= 4', () => {",
+                                    "const body = pm.response.json();",
+                                    "body.data.forEach(f => pm.expect(f.rating).to.be.at.least(4));",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Filtrar solo max_rating",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks?max_rating=2",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "max_rating",
+                                    "value": "2"
+                                }
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('Ratings <= 2', () => {",
+                                    "const body = pm.response.json();",
+                                    "body.data.forEach(f => pm.expect(f.rating).to.be.at.most(2));",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Filtros combinados (user_id + type + rating)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks?user_id=u-001&min_rating=1&max_rating=3&feedback_type=bug",
                             "host": [
                                 "{{base_url}}"
                             ],
@@ -1510,7 +2152,7 @@
                             "query": [
                                 {
                                     "key": "user_id",
-                                    "value": "usr-001"
+                                    "value": "u-001"
                                 },
                                 {
                                     "key": "min_rating",
@@ -1526,26 +2168,30 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "Paginación con limit y offset",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
                                     "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Paginación aplicada', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.meta.limit).to.eql(2);",
-                                    "    pm.expect(body.meta.offset).to.eql(0);",
-                                    "    pm.expect(body.data.length).to.be.at.most(2);",
+                                    "pm.test('Filtros combinados aplicados', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "body.data.forEach(f => {",
+                                    "pm.expect(f.user_id).to.eql('u-001');",
+                                    "pm.expect(f.feedback_type).to.eql('bug');",
+                                    "pm.expect(f.rating).to.be.at.least(1);",
+                                    "pm.expect(f.rating).to.be.at.most(3);",
+                                    "});",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "Paginación con limit y offset",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1575,7 +2221,71 @@
                                 }
                             ]
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('Paginación aplicada', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.meta.limit).to.eql(2);",
+                                    "pm.expect(body.meta.offset).to.eql(0);",
+                                    "pm.expect(body.data.length).to.be.at.most(2);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Paginación segunda página",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks?limit=2&offset=2",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "2"
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "2"
+                                }
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('Segunda página', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.meta.limit).to.eql(2);",
+                                    "pm.expect(body.meta.offset).to.eql(2);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -1584,20 +2294,6 @@
             "item": [
                 {
                     "name": "feedback_type inválido en filtro → 400",
-                    "event": [
-                        {
-                            "listen": "test",
-                            "script": {
-                                "exec": [
-                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
-                                    "pm.test('Error INVALID_FILTER', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('INVALID_FILTER');",
-                                    "});"
-                                ]
-                            }
-                        }
-                    ],
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1623,10 +2319,7 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "min_rating no numérico → 400",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -1634,13 +2327,59 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Error INVALID_FILTER', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('INVALID_FILTER');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "feedback_type en inglés en filtro → 400",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks?feedback_type=suggestion",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "feedback_type",
+                                    "value": "suggestion"
+                                }
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Error INVALID_FILTER', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "min_rating no numérico → 400",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1666,10 +2405,7 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "max_rating fuera de rango → 400",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -1677,13 +2413,16 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Error INVALID_FILTER', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('INVALID_FILTER');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "max_rating fuera de rango → 400",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1709,10 +2448,7 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "created_from formato inválido → 400",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -1720,13 +2456,59 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Error INVALID_FILTER', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('INVALID_FILTER');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "min_rating fuera de rango (0) → 400",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks?min_rating=0",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "min_rating",
+                                    "value": "0"
+                                }
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Error INVALID_FILTER', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "created_from formato inválido → 400",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1752,10 +2534,7 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "limit negativo → 400",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -1763,13 +2542,59 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Error INVALID_FILTER', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('INVALID_FILTER');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "created_to formato inválido → 400",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks?created_to=not-a-date",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "created_to",
+                                    "value": "not-a-date"
+                                }
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Error INVALID_FILTER', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "limit negativo → 400",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1795,10 +2620,7 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "offset negativo → 400",
+                    },
                     "event": [
                         {
                             "listen": "test",
@@ -1806,13 +2628,59 @@
                                 "exec": [
                                     "pm.test('Status 400', () => pm.response.to.have.status(400));",
                                     "pm.test('Error INVALID_FILTER', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.error.code).to.eql('INVALID_FILTER');",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "limit no numérico → 400",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks?limit=abc",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "abc"
+                                }
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Error INVALID_FILTER', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "offset negativo → 400",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1838,26 +2706,24 @@
                                 }
                             ]
                         }
-                    }
-                },
-                {
-                    "name": "user_id sin resultados → 200 vacío",
+                    },
                     "event": [
                         {
                             "listen": "test",
                             "script": {
                                 "exec": [
-                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                                    "pm.test('Array vacío', () => {",
-                                    "    const body = pm.response.json();",
-                                    "    pm.expect(body.success).to.be.true;",
-                                    "    pm.expect(body.data).to.be.an('array').that.is.empty;",
-                                    "    pm.expect(body.meta.total).to.eql(0);",
+                                    "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                                    "pm.test('Error INVALID_FILTER', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.error.code).to.eql('INVALID_FILTER');",
                                     "});"
                                 ]
                             }
                         }
-                    ],
+                    ]
+                },
+                {
+                    "name": "user_id sin resultados → 200 vacío",
                     "request": {
                         "method": "GET",
                         "header": [
@@ -1867,7 +2733,7 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{base_url}}/api/v1/feedbacks?user_id=nonexistent-user",
+                            "raw": "{{base_url}}/api/v1/feedbacks?user_id=u-999",
                             "host": [
                                 "{{base_url}}"
                             ],
@@ -1879,11 +2745,191 @@
                             "query": [
                                 {
                                     "key": "user_id",
-                                    "value": "nonexistent-user"
+                                    "value": "u-999"
                                 }
                             ]
                         }
-                    }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('Array vacío', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "pm.expect(body.data).to.be.an('array').that.is.empty;",
+                                    "pm.expect(body.meta.total).to.eql(0);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Fechas sin resultados → 200 vacío",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks?created_from=2020-01-01T00:00:00Z&created_to=2020-01-02T00:00:00Z",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks"
+                            ],
+                            "query": [
+                                {
+                                    "key": "created_from",
+                                    "value": "2020-01-01T00:00:00Z"
+                                },
+                                {
+                                    "key": "created_to",
+                                    "value": "2020-01-02T00:00:00Z"
+                                }
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "pm.test('Array vacío', () => {",
+                                    "const body = pm.response.json();",
+                                    "pm.expect(body.success).to.be.true;",
+                                    "pm.expect(body.data).to.be.an('array').that.is.empty;",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "10 - Rutas No Encontradas",
+            "item": [
+                {
+                    "name": "Ruta inexistente → 404/405",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/nonexistent",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "nonexistent"
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 404 o 405', () => {",
+                                    "pm.expect(pm.response.code).to.be.oneOf([404, 405]);",
+                                    "});"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "DELETE no soportado → 405",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks",
+                                "{{feedback_id}}"
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 405', () => pm.response.to.have.status(405));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "PUT no soportado → 405",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "X-API-Key",
+                                "value": "{{api_key}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/v1/feedbacks/{{feedback_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "feedbacks",
+                                "{{feedback_id}}"
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"user_id\": \"u-001\",\n    \"feedback_type\": \"bug\",\n    \"rating\": 3,\n    \"comment\": \"PUT no soportado\"\n}"
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 405', () => pm.response.to.have.status(405));"
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         }

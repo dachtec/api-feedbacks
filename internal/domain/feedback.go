@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"regexp"
 	"strings"
 	"time"
 )
@@ -10,18 +11,23 @@ type FeedbackType string
 
 const (
 	FeedbackTypeBug        FeedbackType = "bug"
-	FeedbackTypeSuggestion FeedbackType = "suggestion"
-	FeedbackTypePraise     FeedbackType = "praise"
-	FeedbackTypeQuestion   FeedbackType = "question"
+	FeedbackTypeSugerencia FeedbackType = "sugerencia"
+	FeedbackTypeElogio     FeedbackType = "elogio"
+	FeedbackTypeDuda       FeedbackType = "duda"
+	FeedbackTypeQueja      FeedbackType = "queja"
 )
 
 // validFeedbackTypes contains all valid feedback types for validation.
 var validFeedbackTypes = map[FeedbackType]bool{
 	FeedbackTypeBug:        true,
-	FeedbackTypeSuggestion: true,
-	FeedbackTypePraise:     true,
-	FeedbackTypeQuestion:   true,
+	FeedbackTypeSugerencia: true,
+	FeedbackTypeElogio:     true,
+	FeedbackTypeDuda:       true,
+	FeedbackTypeQueja:      true,
 }
+
+// userIDPattern validates user_id format: u-### (e.g. u-001, u-015).
+var userIDPattern = regexp.MustCompile(`^u-\d{3}$`)
 
 // IsValidFeedbackType checks if the given string is a valid feedback type.
 func IsValidFeedbackType(ft string) bool {
@@ -30,7 +36,7 @@ func IsValidFeedbackType(ft string) bool {
 
 // Feedback represents a user feedback entity.
 type Feedback struct {
-	ID           string       `json:"id"`
+	FeedbackID   string       `json:"feedback_id"`
 	UserID       string       `json:"user_id"`
 	FeedbackType FeedbackType `json:"feedback_type"`
 	Rating       int          `json:"rating"`
@@ -47,12 +53,14 @@ func (f *Feedback) Validate() error {
 
 	if strings.TrimSpace(f.UserID) == "" {
 		errs = append(errs, ValidationFieldError{Field: "user_id", Message: "user_id is required"})
+	} else if !userIDPattern.MatchString(f.UserID) {
+		errs = append(errs, ValidationFieldError{Field: "user_id", Message: "user_id must match format u-### (e.g. u-001)"})
 	}
 
 	if !IsValidFeedbackType(string(f.FeedbackType)) {
 		errs = append(errs, ValidationFieldError{
 			Field:   "feedback_type",
-			Message: "feedback_type must be one of: bug, suggestion, praise, question",
+			Message: "feedback_type must be one of: bug, sugerencia, elogio, duda, queja",
 		})
 	}
 

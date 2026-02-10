@@ -26,11 +26,11 @@ func NewFeedbackRepo(pool *pgxpool.Pool) *FeedbackRepo {
 // Create inserts a new feedback record into the database.
 func (r *FeedbackRepo) Create(ctx context.Context, f *domain.Feedback) error {
 	query := `
-		INSERT INTO feedbacks (id, user_id, feedback_type, rating, comment, created_at, updated_at)
+		INSERT INTO feedbacks (feedback_id, user_id, feedback_type, rating, comment, created_at, updated_at)
 		VALUES ($1, $2, $3, $4, $5, $6, $7)`
 
 	_, err := r.pool.Exec(ctx, query,
-		f.ID, f.UserID, f.FeedbackType, f.Rating, f.Comment, f.CreatedAt, f.UpdatedAt,
+		f.FeedbackID, f.UserID, f.FeedbackType, f.Rating, f.Comment, f.CreatedAt, f.UpdatedAt,
 	)
 	if err != nil {
 		return fmt.Errorf("failed to create feedback: %w", err)
@@ -42,13 +42,13 @@ func (r *FeedbackRepo) Create(ctx context.Context, f *domain.Feedback) error {
 // GetByID retrieves a single feedback by its ID.
 func (r *FeedbackRepo) GetByID(ctx context.Context, id string) (*domain.Feedback, error) {
 	query := `
-		SELECT id, user_id, feedback_type, rating, comment, created_at, updated_at
+		SELECT feedback_id, user_id, feedback_type, rating, comment, created_at, updated_at
 		FROM feedbacks
-		WHERE id = $1`
+		WHERE feedback_id = $1`
 
 	f := &domain.Feedback{}
 	err := r.pool.QueryRow(ctx, query, id).Scan(
-		&f.ID, &f.UserID, &f.FeedbackType, &f.Rating, &f.Comment, &f.CreatedAt, &f.UpdatedAt,
+		&f.FeedbackID, &f.UserID, &f.FeedbackType, &f.Rating, &f.Comment, &f.CreatedAt, &f.UpdatedAt,
 	)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
@@ -65,10 +65,10 @@ func (r *FeedbackRepo) Update(ctx context.Context, f *domain.Feedback) error {
 	query := `
 		UPDATE feedbacks
 		SET user_id = $2, feedback_type = $3, rating = $4, comment = $5, updated_at = $6
-		WHERE id = $1`
+		WHERE feedback_id = $1`
 
 	result, err := r.pool.Exec(ctx, query,
-		f.ID, f.UserID, f.FeedbackType, f.Rating, f.Comment, f.UpdatedAt,
+		f.FeedbackID, f.UserID, f.FeedbackType, f.Rating, f.Comment, f.UpdatedAt,
 	)
 	if err != nil {
 		return fmt.Errorf("failed to update feedback: %w", err)
@@ -137,7 +137,7 @@ func (r *FeedbackRepo) List(ctx context.Context, filter repository.FeedbackFilte
 
 	// Fetch paginated results
 	dataQuery := fmt.Sprintf(
-		`SELECT id, user_id, feedback_type, rating, comment, created_at, updated_at
+		`SELECT feedback_id, user_id, feedback_type, rating, comment, created_at, updated_at
 		 FROM feedbacks %s
 		 ORDER BY created_at DESC
 		 LIMIT $%d OFFSET $%d`,
@@ -154,7 +154,7 @@ func (r *FeedbackRepo) List(ctx context.Context, filter repository.FeedbackFilte
 	var feedbacks []*domain.Feedback
 	for rows.Next() {
 		f := &domain.Feedback{}
-		if err := rows.Scan(&f.ID, &f.UserID, &f.FeedbackType, &f.Rating, &f.Comment, &f.CreatedAt, &f.UpdatedAt); err != nil {
+		if err := rows.Scan(&f.FeedbackID, &f.UserID, &f.FeedbackType, &f.Rating, &f.Comment, &f.CreatedAt, &f.UpdatedAt); err != nil {
 			return nil, 0, fmt.Errorf("failed to scan feedback: %w", err)
 		}
 		feedbacks = append(feedbacks, f)

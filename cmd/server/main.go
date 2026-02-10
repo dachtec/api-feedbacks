@@ -106,9 +106,9 @@ func main() {
 func runMigrations(ctx context.Context, pool *pgxpool.Pool) error {
 	migration := `
 	CREATE TABLE IF NOT EXISTS feedbacks (
-		id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-		user_id       VARCHAR(255) NOT NULL,
-		feedback_type VARCHAR(50)  NOT NULL CHECK (feedback_type IN ('bug','suggestion','praise','question')),
+		feedback_id   VARCHAR(10)  PRIMARY KEY,
+		user_id       VARCHAR(10)  NOT NULL,
+		feedback_type VARCHAR(50)  NOT NULL CHECK (feedback_type IN ('bug','sugerencia','elogio','duda','queja')),
 		rating        INTEGER      NOT NULL CHECK (rating >= 1 AND rating <= 5),
 		comment       TEXT         NOT NULL,
 		created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW(),

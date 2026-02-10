@@ -15,6 +15,9 @@ import (
 	"github.com/dev/api-feedbacks/pkg/response"
 )
 
+// timeFormat defines the output format for timestamps (RFC3339 without milliseconds).
+const timeFormat = time.RFC3339
+
 // FeedbackHandler handles HTTP requests for feedback operations.
 type FeedbackHandler struct {
 	svc service.FeedbackService
@@ -221,12 +224,12 @@ func handleServiceError(w http.ResponseWriter, err error) {
 // toFeedbackResponse converts a domain Feedback to a FeedbackResponse DTO.
 func toFeedbackResponse(f *domain.Feedback) FeedbackResponse {
 	return FeedbackResponse{
-		ID:           f.ID,
+		FeedbackID:   f.FeedbackID,
 		UserID:       f.UserID,
 		FeedbackType: string(f.FeedbackType),
 		Rating:       f.Rating,
 		Comment:      f.Comment,
-		CreatedAt:    f.CreatedAt,
-		UpdatedAt:    f.UpdatedAt,
+		CreatedAt:    f.CreatedAt.UTC().Format(timeFormat),
+		UpdatedAt:    f.UpdatedAt.UTC().Format(timeFormat),
 	}
 }

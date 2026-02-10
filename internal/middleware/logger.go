@@ -1,11 +1,11 @@
 package middleware
 
 import (
+	"crypto/rand"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
-
-	"github.com/google/uuid"
 )
 
 // responseWriter wraps http.ResponseWriter to capture the status code.
@@ -23,7 +23,9 @@ func (rw *responseWriter) WriteHeader(code int) {
 func Logger(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
-		requestID := uuid.New().String()
+		b := make([]byte, 16)
+		_, _ = rand.Read(b)
+		requestID := fmt.Sprintf("%x", b)
 
 		w.Header().Set("X-Request-ID", requestID)
 
