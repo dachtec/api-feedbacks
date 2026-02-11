@@ -20,3 +20,7 @@
 ## CR-005: Actualización de la Tabla de Contenidos
 **Contexto**: La tabla de contenidos en el README.md no reflejaba el título actualizado de la sección de decisiones técnicas.
 **Corrección**: Se actualizó el índice para que coincida con el encabezado "Decisiones Técnicas Destacadas".
+## CR-006: Inclusión de Make y Enlaces
+**Contexto**: El README.md no listaba Make como requisito explícito ni incluía enlaces de descarga para las herramientas.
+**Corrección**: El usuario solicitó agregar Make a los requisitos e incluir enlaces oficiales de descarga para todas las herramientas listadas.
+

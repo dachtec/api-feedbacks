@@ -146,10 +146,11 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 
 | Herramienta | Versión mínima | Verificación |
 |---|---|---|
-| **Docker** | 20.10+ | `docker --version` |
-| **Docker Compose** | 2.0+ | `docker compose version` |
-| **Git** | 2.0+ | `git --version` |
-| **Postman** *(opcional)* | Última versión | Para pruebas con la colección incluida |
+| [**Docker**](https://www.docker.com/get-started) | 20.10+ | `docker --version` |
+| [**Docker Compose**](https://docs.docker.com/compose/install/) | 2.0+ | `docker compose version` |
+| [**Git**](https://git-scm.com/downloads) | 2.0+ | `git --version` |
+| [**Make**](https://www.gnu.org/software/make/) | 3.81+ | `make --version` |
+| [**Postman**](https://www.postman.com/downloads/) *(opcional)* | Última versión | Para pruebas con la colección incluida |
 
 > [!NOTE]
 > **No necesitas Go instalado localmente.** Todo el desarrollo y ejecución se realiza dentro de contenedores Docker.
@@ -159,20 +160,30 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 ## 🚀 Instalación y Ejecución
 
 ### 1. Clonar el repositorio
-
+Clonar repositorio
 ```bash
 git clone https://github.com/dachtec/api-feedbacks.git
+```
+Ingresar a la carpeta api-feedbacks
+```bash
 cd api-feedbacks
 ```
 
 ### 2. Ejecutar en modo producción
 
+> [!IMPORTANT]
+> **Asegúrate de tener `make` instalado antes de continuar.**
+> 
+> - **Windows**: Instalar vía [Chocolatey](https://community.chocolatey.org/packages/make) (`choco install make`) o usar WSL.
+> - **Mac**: Incluido en [Xcode Command Line Tools](https://developer.apple.com/xcode/resources/) (`xcode-select --install`).
+> - **Linux**: Instalar vía gestor de paquetes (Ej. `sudo apt install make` en Ubuntu/Debian).
+
+Construir y levantar todos los servicios (API + PostgreSQL)
 ```bash
-# Construir y levantar todos los servicios (API + PostgreSQL)
 make run
 ```
 
-Esto ejecutará `docker compose up -d --build`, levantando:
+Esto levantará 2 contenedores:
 - 🟢 **API** en `http://localhost:8080`
 - 🟢 **PostgreSQL** en `localhost:5432`
 
