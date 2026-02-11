@@ -1,0 +1,148 @@
+{
+  "rating_distribution": {
+    "1": 4,
+    "2": 7,
+    "3": 3,
+    "4": 3,
+    "5": 7
+  },
+  "type_distribution": {
+    "bug": 10,
+    "elogio": 7,
+    "queja": 3,
+    "sugerencia": 3,
+    "duda": 1
+  },
+  "sentiment_distribution": {
+    "Positivo": 9,
+    "Negativo": 14,
+    "Neutral": 1
+  },
+  "theme_counts": {
+    "Rendimiento/Estabilidad": 6,
+    "UX/Interfaz": 5,
+    "Autenticación/Login": 4,
+    "Videollamadas/Comunicación": 4,
+    "Búsqueda": 2,
+    "Notificaciones": 3,
+    "Trabajo remoto": 2,
+    "Integraciones": 2,
+    "Soporte al cliente": 2
+  },
+  "theme_avg_ratings": {
+    "Rendimiento/Estabilidad": 3.67,
+    "UX/Interfaz": 3.6,
+    "Autenticación/Login": 1.75,
+    "Videollamadas/Comunicación": 1.5,
+    "Búsqueda": 3.0,
+    "Notificaciones": 5.0,
+    "Trabajo remoto": 5.0,
+    "Integraciones": 4.5,
+    "Soporte al cliente": 1.5
+  },
+  "daily_volume": {
+    "2026-01-10": 1,
+    "2026-01-11": 1,
+    "2026-01-12": 1,
+    "2026-01-13": 2,
+    "2026-01-14": 1,
+    "2026-01-15": 2,
+    "2026-01-16": 2,
+    "2026-01-17": 1,
+    "2026-01-18": 2,
+    "2026-01-19": 2,
+    "2026-01-20": 1,
+    "2026-01-21": 2,
+    "2026-01-22": 2,
+    "2026-01-23": 2,
+    "2026-01-24": 1,
+    "2026-01-25": 1
+  },
+  "daily_avg_rating": {
+    "2026-01-10": 5.0,
+    "2026-01-11": 2.0,
+    "2026-01-12": 1.0,
+    "2026-01-13": 1.5,
+    "2026-01-14": 3.0,
+    "2026-01-15": 5.0,
+    "2026-01-16": 4.5,
+    "2026-01-17": 3.0,
+    "2026-01-18": 1.5,
+    "2026-01-19": 3.0,
+    "2026-01-20": 2.0,
+    "2026-01-21": 4.0,
+    "2026-01-22": 1.5,
+    "2026-01-23": 3.0,
+    "2026-01-24": 5.0,
+    "2026-01-25": 5.0
+  },
+  "weekly_volume": {
+    "2026-W01": 2,
+    "2026-W02": 11,
+    "2026-W03": 11
+  },
+  "keyword_freq": {
+    "falla": 3,
+    "videollamadas": 3,
+    "excelente": 2,
+    "rápida": 2,
+    "cambio": 2,
+    "plataforma": 2,
+    "tiempo": 2,
+    "trabajar": 2,
+    "búsqueda": 2,
+    "resultados": 2,
+    "notificaciones": 2,
+    "google": 2,
+    "drive": 2,
+    "soporte": 2,
+    "app": 2,
+    "tema": 2,
+    "oscuro": 2,
+    "navegación": 1,
+    "interfaz": 1,
+    "intuitiva": 1,
+    "desconecta": 1,
+    "sección": 1,
+    "login": 1,
+    "verificación": 1,
+    "dos": 1
+  },
+  "severity_scores": {
+    "elogio": {
+      "count": 7,
+      "avg_rating": 4.857142857142857,
+      "severity_score": 8.0
+    },
+    "bug": {
+      "count": 10,
+      "avg_rating": 2.0,
+      "severity_score": 40.0
+    },
+    "queja": {
+      "count": 3,
+      "avg_rating": 1.3333333333333333,
+      "severity_score": 14.0
+    },
+    "sugerencia": {
+      "count": 3,
+      "avg_rating": 4.333333333333333,
+      "severity_score": 5.0
+    },
+    "duda": {
+      "count": 1,
+      "avg_rating": 3.0,
+      "severity_score": 3.0
+    }
+  },
+  "avg_rating": 3.08,
+  "median_rating": 3,
+  "std_dev": 1.5,
+  "total_records": 24,
+  "unique_users": 18,
+  "repeat_users": 5,
+  "comment_length_by_rating": {
+    "2": 65.3,
+    "3": 65.0
+  }
+}

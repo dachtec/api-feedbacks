@@ -70,3 +70,8 @@
 **Decisión**: (1) Actualizar las imágenes base a `golang:1.24-alpine` en ambos Dockerfiles. (2) Pinar `air` a la versión `v1.61.7` en lugar de `@latest`. (3) Separar los servicios `app` y `app-dev` en perfiles Docker Compose (`prod` y `dev` respectivamente) para evitar conflictos de puerto.
 **Justificación**: Go 1.24 es la última versión estable disponible y es compatible con todas las dependencias del proyecto. El pinning de `air` previene roturas futuras por incompatibilidad de versión. Los perfiles de Docker Compose aseguran que solo se inicie el servicio correspondiente al modo de ejecución, eliminando conflictos de puerto y simplificando los comandos del Makefile.
 
+
+## TD-015: Rutas relativas en documentación
+**Contexto**: El informe de análisis contenía enlaces absolutos a archivos locales del usuario y a `brain/...`, lo que rompía la portabilidad del documento.
+**Decisión**: Mover los recursos (imágenes) a subdirectorios locales (`img/`) y actualizar todas las referencias para usar rutas relativas.
+**Justificación**: Asegura que el documento sea portable y que los enlaces funcionen para cualquier usuario que clone el repositorio, independientemente de su estructura de directorios local.

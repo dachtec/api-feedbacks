@@ -1,0 +1,218 @@
+[
+    {
+        "feedback_id": "f-0001",
+        "user_id": "u-001",
+        "feedback_type": "elogio",
+        "rating": 5,
+        "comment": "La navegación es excelente. La interfaz es intuitiva y muy rápida.",
+        "created_at": "2026-01-10T09:12:11Z",
+        "updated_at": "2026-01-10T09:12:11Z"
+    },
+    {
+        "feedback_id": "f-0002",
+        "user_id": "u-011",
+        "feedback_type": "bug",
+        "rating": 2,
+        "comment": "Se desconecta cuando cambio de sección en la plataforma. A veces debo hacer login otra vez.",
+        "created_at": "2026-01-11T14:03:22Z",
+        "updated_at": "2026-01-11T14:03:22Z"
+    },
+    {
+        "feedback_id": "f-0003",
+        "user_id": "u-015",
+        "feedback_type": "queja",
+        "rating": 1,
+        "comment": "La verificación de dos pasos falla. Nunca recibo el código por SMS.",
+        "created_at": "2026-01-12T18:44:05Z",
+        "updated_at": "2026-01-12T18:44:05Z"
+    },
+    {
+        "feedback_id": "f-0004",
+        "user_id": "u-008",
+        "feedback_type": "bug",
+        "rating": 2,
+        "comment": "La videollamada se corta después de unos minutos y debo reiniciar.",
+        "created_at": "2026-01-13T07:28:59Z",
+        "updated_at": "2026-01-13T07:28:59Z"
+    },
+    {
+        "feedback_id": "f-0005",
+        "user_id": "u-008",
+        "feedback_type": "bug",
+        "rating": 1,
+        "comment": "Las videollamadas se cortan todo el tiempo, imposible trabajar asi.",
+        "created_at": "2026-01-13T08:15:10Z",
+        "updated_at": "2026-01-13T08:15:10Z"
+    },
+    {
+        "feedback_id": "f-0006",
+        "user_id": "u-019",
+        "feedback_type": "bug",
+        "rating": 3,
+        "comment": "A veces la búsqueda tarda mucho en cargar los resultados.",
+        "created_at": "2026-01-14T21:10:10Z",
+        "updated_at": "2026-01-14T21:10:10Z"
+    },
+    {
+        "feedback_id": "f-0007",
+        "user_id": "u-005",
+        "feedback_type": "elogio",
+        "rating": 5,
+        "comment": "Me encanta la función de notificaciones automáticas, muy útil!",
+        "created_at": "2026-01-15T12:01:00Z",
+        "updated_at": "2026-01-15T12:01:00Z"
+    },
+    {
+        "feedback_id": "f-0008",
+        "user_id": "u-017",
+        "feedback_type": "elogio",
+        "rating": 5,
+        "comment": "Las notificaciones siempre llegan a tiempo y me ayudan a organizarme.",
+        "created_at": "2026-01-15T13:22:10Z",
+        "updated_at": "2026-01-15T13:22:10Z"
+    },
+    {
+        "feedback_id": "f-0009",
+        "user_id": "u-012",
+        "feedback_type": "sugerencia",
+        "rating": 4,
+        "comment": "Me gustaria tener integración con Google Drive.",
+        "created_at": "2026-01-16T16:22:31Z",
+        "updated_at": "2026-01-16T16:22:31Z"
+    },
+    {
+        "feedback_id": "f-0010",
+        "user_id": "u-012",
+        "feedback_type": "sugerencia",
+        "rating": 5,
+        "comment": "Sería genial que pudiera exportar reportes directamente a Google Drive.",
+        "created_at": "2026-01-16T17:10:15Z",
+        "updated_at": "2026-01-16T17:10:15Z"
+    },
+    {
+        "feedback_id": "f-0011",
+        "user_id": "u-013",
+        "feedback_type": "duda",
+        "rating": 3,
+        "comment": "¿Dónde puedo cambiar mi dirección de correo? No lo encuentro en la configuración.",
+        "created_at": "2026-01-17T19:31:40Z",
+        "updated_at": "2026-01-17T19:31:40Z"
+    },
+    {
+        "feedback_id": "f-0012",
+        "user_id": "u-023",
+        "feedback_type": "bug",
+        "rating": 2,
+        "comment": "Cada vez que cambio de red wifi necesito volver a iniciar sesión.",
+        "created_at": "2026-01-18T08:12:55Z",
+        "updated_at": "2026-01-18T08:12:55Z"
+    },
+    {
+        "feedback_id": "f-0013",
+        "user_id": "u-016",
+        "feedback_type": "queja",
+        "rating": 1,
+        "comment": "El soporte nunca responde mis tickets. Mala atención.",
+        "created_at": "2026-01-18T10:55:14Z",
+        "updated_at": "2026-01-18T10:55:14Z"
+    },
+    {
+        "feedback_id": "f-0014",
+        "user_id": "u-004",
+        "feedback_type": "elogio",
+        "rating": 4,
+        "comment": "La plataforma es muy estable y fácil de usar, felicidades.",
+        "created_at": "2026-01-19T06:41:09Z",
+        "updated_at": "2026-01-19T06:41:09Z"
+    },
+    {
+        "feedback_id": "f-0015",
+        "user_id": "u-015",
+        "feedback_type": "queja",
+        "rating": 2,
+        "comment": "El soporte demora mucho en resolver problemas criticos.",
+        "created_at": "2026-01-19T07:09:50Z",
+        "updated_at": "2026-01-19T07:09:50Z"
+    },
+    {
+        "feedback_id": "f-0016",
+        "user_id": "u-021",
+        "feedback_type": "bug",
+        "rating": 2,
+        "comment": "La aplicación se reinicia sola después de la última actualización.",
+        "created_at": "2026-01-20T12:09:42Z",
+        "updated_at": "2026-01-20T12:09:42Z"
+    },
+    {
+        "feedback_id": "f-0017",
+        "user_id": "u-022",
+        "feedback_type": "bug",
+        "rating": 3,
+        "comment": "En ocasiones, la búsqueda muestra resultados incorrectos.",
+        "created_at": "2026-01-21T07:07:07Z",
+        "updated_at": "2026-01-21T07:07:07Z"
+    },
+    {
+        "feedback_id": "f-0018",
+        "user_id": "u-016",
+        "feedback_type": "elogio",
+        "rating": 5,
+        "comment": "La app móvil es rápida y nunca falla.",
+        "created_at": "2026-01-21T13:58:36Z",
+        "updated_at": "2026-01-21T13:58:36Z"
+    },
+    {
+        "feedback_id": "f-0019",
+        "user_id": "u-020",
+        "feedback_type": "bug",
+        "rating": 1,
+        "comment": "Las videollamadas no funcionan si hay más de 3 personas.",
+        "created_at": "2026-01-22T12:15:00Z",
+        "updated_at": "2026-01-22T12:15:00Z"
+    },
+    {
+        "feedback_id": "f-0020",
+        "user_id": "u-008",
+        "feedback_type": "bug",
+        "rating": 2,
+        "comment": "Las videollamadas grupales presentan eco y cortes frecuentes.",
+        "created_at": "2026-01-22T18:25:00Z",
+        "updated_at": "2026-01-22T18:25:00Z"
+    },
+    {
+        "feedback_id": "f-0021",
+        "user_id": "u-003",
+        "feedback_type": "sugerencia",
+        "rating": 4,
+        "comment": "Agreguen posibilidad de elegir tema oscuro. Seria ideal para trabajar de noche.",
+        "created_at": "2026-01-23T09:15:19Z",
+        "updated_at": "2026-01-23T09:15:19Z"
+    },
+    {
+        "feedback_id": "f-0022",
+        "user_id": "u-019",
+        "feedback_type": "bug",
+        "rating": 2,
+        "comment": "Al activar el tema oscuro, los textos no se ven bien.",
+        "created_at": "2026-01-23T17:50:44Z",
+        "updated_at": "2026-01-23T17:50:44Z"
+    },
+    {
+        "feedback_id": "f-0023",
+        "user_id": "u-007",
+        "feedback_type": "elogio",
+        "rating": 5,
+        "comment": "Sus novedades semanales por email siempre son útiles!",
+        "created_at": "2026-01-24T22:11:02Z",
+        "updated_at": "2026-01-24T22:11:02Z"
+    },
+    {
+        "feedback_id": "f-0024",
+        "user_id": "u-024",
+        "feedback_type": "elogio",
+        "rating": 5,
+        "comment": "Excelente para trabajo remoto. La sincronización nunca falla y la app es ágil.",
+        "created_at": "2026-01-25T07:58:36Z",
+        "updated_at": "2026-01-25T07:58:36Z"
+    }
+]

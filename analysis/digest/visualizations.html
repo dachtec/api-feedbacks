@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Analysis Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #EDEDED;
+            color: #333333;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #FFE600;
+            padding: 1rem 2rem;
+            box-shadow: 0 1px 0 0 rgba(0, 0, 0, .1);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2D3277;
+            margin-bottom: 0.2rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #333333;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+        }
+
+        /* KPI Cards */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .kpi-card {
+            background: #FFFFFF;
+            border-radius: 6px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .12);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .12);
+        }
+
+        .kpi-value {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #2D3277;
+        }
+
+        .kpi-label {
+            font-size: 0.8rem;
+            color: #666666;
+            margin-top: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: #FFFFFF;
+            border-radius: 6px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .12);
+        }
+
+        .chart-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 1rem;
+            border-left: 4px solid #FFE600;
+            padding-left: 10px;
+        }
+
+        canvas {
+            max-height: 350px;
+        }
+
+        /* Wordcloud */
+        .wordcloud-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1.5rem;
+            min-height: 200px;
+        }
+
+        .word-tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: default;
+            color: #fff;
+        }
+
+        .word-tag:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 0;
+            }
+
+            header {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Feedback Intelligence Dashboard</h1>
+        <p class="subtitle">Análisis integral de 24 registros de feedback · Enero 2026</p>
+    </header>
+
+    <div class="container">
+        <!-- KPI Row -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-value">24</div>
+                <div class="kpi-label">Total Feedbacks</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value">3.08</div>
+                <div class="kpi-label">Rating Promedio</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value">18</div>
+                <div class="kpi-label">Usuarios Únicos</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" style="color: #F23D4F;">58.3%</div>
+                <div class="kpi-label">Sentimiento Negativo</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-value" style="color: #F23D4F;">41.7%</div>
+                <div class="kpi-label">Bugs Reportados</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <!-- 1. Rating Distribution -->
+            <div class="chart-card">
+                <div class="chart-title">Distribución de Calificaciones</div>
+                <canvas id="ratingChart"></canvas>
+            </div>
+
+            <!-- 2. Feedback Type Distribution -->
+            <div class="chart-card">
+                <div class="chart-title">Distribución por Tipo de Feedback</div>
+                <canvas id="typeChart"></canvas>
+            </div>
+
+            <!-- 3. Temporal Trend -->
+            <div class="chart-card full-width">
+                <div class="chart-title">Tendencia Temporal: Volumen y Rating Promedio Diario</div>
+                <canvas id="temporalChart"></canvas>
+            </div>
+
+            <!-- 4. Thematic Clustering -->
+            <div class="chart-card">
+                <div class="chart-title">Agrupación Temática (con Rating Promedio)</div>
+                <canvas id="themeChart"></canvas>
+            </div>
+
+            <!-- 5. Sentiment -->
+            <div class="chart-card">
+                <div class="chart-title">Análisis de Sentimiento</div>
+                <canvas id="sentimentChart"></canvas>
+            </div>
+
+            <!-- 6. Wordcloud -->
+            <div class="chart-card full-width">
+                <div class="chart-title">Nube de Palabras Clave</div>
+                <div class="wordcloud-container" id="wordcloud"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ── Color Palette (Mercado Libre Style) ──
+        const palette = {
+            meliYellow: '#FFE600',    // Primary Brand
+            meliBlueDark: '#2D3277',  // Primary Text / Headers
+            meliBlue: '#3483FA',      // Link / Action
+            meliGreen: '#00A650',     // Success
+            meliRed: '#F23D4F',       // Error / Alert
+            meliOrange: '#FF7733',    // Warning
+            meliGray: '#EDEDED',      // Background
+            meliLightBlue: '#4189E6', // Variation
+            meliPurple: '#A913F9',    // Accent
+            meliTeal: '#00B1EA'       // Accent
+        };
+
+        const chartDefaults = {
+            color: '#666666',
+            borderColor: '#E6E6E6', // Grid lines
+        };
+        Chart.defaults.color = chartDefaults.color;
+        Chart.defaults.borderColor = chartDefaults.borderColor;
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        // ── 1. Rating Distribution ──
+        new Chart(document.getElementById('ratingChart'), {
+            type: 'bar',
+            data: {
+                labels: ['⭐ 1', '⭐ 2', '⭐ 3', '⭐ 4', '⭐ 5'],
+                datasets: [{
+                    label: 'Cantidad',
+                    data: [4, 7, 3, 3, 7],
+                    backgroundColor: [
+                        palette.meliRed,    // 1 star
+                        palette.meliOrange, // 2 stars
+                        palette.meliYellow, // 3 stars
+                        palette.meliBlue,   // 4 stars
+                        palette.meliGreen   // 5 stars
+                    ],
+                    borderRadius: 4,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => `${ctx.raw} feedbacks (${(ctx.raw / 24 * 100).toFixed(1)}%)`
+                        },
+                        backgroundColor: '#333',
+                        padding: 10,
+                        cornerRadius: 4
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // ── 2. Feedback Type Distribution ──
+        new Chart(document.getElementById('typeChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Bug', 'Elogio', 'Queja', 'Sugerencia', 'Duda'],
+                datasets: [{
+                    data: [10, 7, 3, 3, 1],
+                    backgroundColor: [
+                        palette.meliRed,      // Bug
+                        palette.meliGreen,    // Elogio
+                        palette.meliOrange,   // Queja
+                        palette.meliBlue,     // Sugerencia
+                        palette.meliPurple    // Duda
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#FFFFFF',
+                    hoverOffset: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '60%',
+                plugins: {
+                    legend: { position: 'right', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle' } },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => `${ctx.label}: ${ctx.raw} (${(ctx.raw / 24 * 100).toFixed(1)}%)`
+                        },
+                        backgroundColor: '#333',
+                        padding: 10,
+                        cornerRadius: 4
+                    }
+                }
+            }
+        });
+
+        // ── 3. Temporal Trend ──
+        const days = [
+            '01-10', '01-11', '01-12', '01-13', '01-14', '01-15', '01-16', '01-17',
+            '01-18', '01-19', '01-20', '01-21', '01-22', '01-23', '01-24', '01-25'
+        ];
+        const volume = [1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 1, 1];
+        const avgRating = [5.0, 2.0, 1.0, 1.5, 3.0, 5.0, 4.5, 3.0, 1.5, 3.0, 2.0, 4.0, 1.5, 3.0, 5.0, 5.0];
+
+        new Chart(document.getElementById('temporalChart'), {
+            type: 'bar',
+            data: {
+                labels: days,
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Volumen',
+                        data: volume,
+                        backgroundColor: 'rgba(52, 131, 250, 0.3)', // Light Meli Blue
+                        hoverBackgroundColor: palette.meliBlue,
+                        borderRadius: 4,
+                        yAxisID: 'y',
+                        order: 2,
+                    },
+                    {
+                        type: 'line',
+                        label: 'Rating Promedio',
+                        data: avgRating,
+                        borderColor: palette.meliYellow, // Meli Yellow for line
+                        backgroundColor: 'rgba(255, 230, 0, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#FFFFFF',
+                        pointBorderColor: palette.meliYellow,
+                        pointBorderWidth: 2,
+                        yAxisID: 'y1',
+                        order: 1,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16, pointStyle: 'circle' } },
+                    tooltip: { backgroundColor: '#333', padding: 10, cornerRadius: 4 }
+                },
+                scales: {
+                    y: { beginAtZero: true, position: 'left', title: { display: true, text: 'Volumen' }, ticks: { stepSize: 1 } },
+                    y1: { beginAtZero: true, max: 5.5, position: 'right', title: { display: true, text: 'Rating Promedio' }, grid: { drawOnChartArea: false } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // ── 4. Thematic Clustering ──
+        const themes = ['Rend./Estab.', 'UX/Interfaz', 'Auth/Login', 'Videollam.', 'Notific.', 'Búsqueda', 'Trab. remoto', 'Integrac.', 'Soporte'];
+        const themeCounts = [6, 5, 4, 4, 3, 2, 2, 2, 2];
+        const themeRatings = [3.67, 3.60, 1.75, 1.50, 5.00, 3.00, 5.00, 4.50, 1.50];
+        const themeColors = themeCounts.map((_, i) => {
+            const r = themeRatings[i];
+            if (r >= 4.5) return palette.meliGreen;
+            if (r >= 3.5) return palette.meliBlue;
+            if (r >= 2.5) return palette.meliYellow;
+            return palette.meliRed;
+        });
+
+        new Chart(document.getElementById('themeChart'), {
+            type: 'bar',
+            data: {
+                labels: themes,
+                datasets: [{
+                    label: 'Feedbacks',
+                    data: themeCounts,
+                    backgroundColor: themeColors,
+                    borderRadius: 4,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => `${ctx.raw} feedbacks · Avg Rating: ${themeRatings[ctx.dataIndex]}`
+                        },
+                        backgroundColor: '#333', padding: 10, cornerRadius: 4
+                    }
+                },
+                scales: {
+                    x: { beginAtZero: true, ticks: { stepSize: 1 } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+
+        // ── 5. Sentiment ──
+        new Chart(document.getElementById('sentimentChart'), {
+            type: 'doughnut', // Clean doughnut matches Meli style better than polar area
+            data: {
+                labels: ['Positivo (37.5%)', 'Neutral (4.2%)', 'Negativo (58.3%)'],
+                datasets: [{
+                    data: [9, 1, 14],
+                    backgroundColor: [
+                        palette.meliGreen,
+                        palette.meliYellow, // typically grey/yellow for neutral
+                        palette.meliRed,
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#FFFFFF',
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '70%',
+                plugins: {
+                    legend: { position: 'right', labels: { usePointStyle: true, pointStyle: 'circle', padding: 16 } },
+                    tooltip: { backgroundColor: '#333', padding: 10, cornerRadius: 4 }
+                }
+            }
+        });
+
+        // ── 6. Wordcloud ──
+        const words = [
+            { text: 'videollamadas', count: 3 }, { text: 'falla', count: 3 }, { text: 'excelente', count: 2 },
+            { text: 'rápida', count: 2 }, { text: 'plataforma', count: 2 }, { text: 'tiempo', count: 2 },
+            { text: 'búsqueda', count: 2 }, { text: 'resultados', count: 2 }, { text: 'notificaciones', count: 2 },
+            { text: 'google', count: 2 }, { text: 'drive', count: 2 }, { text: 'soporte', count: 2 },
+            { text: 'app', count: 2 }, { text: 'tema', count: 2 }, { text: 'oscuro', count: 2 },
+            { text: 'navegación', count: 1 }, { text: 'interfaz', count: 1 }, { text: 'intuitiva', count: 1 },
+            { text: 'login', count: 1 }, { text: 'sesión', count: 1 }, { text: 'verificación', count: 1 },
+            { text: 'cortes', count: 1 }, { text: 'eco', count: 1 }, { text: 'sincronización', count: 1 },
+            { text: 'remoto', count: 1 }, { text: 'reinicia', count: 1 }, { text: 'tickets', count: 1 },
+        ];
+
+        const cloudColors = [
+            palette.meliBlueDark, palette.meliBlue, palette.meliGreen, palette.meliPurple, palette.meliTeal
+        ];
+
+        const container = document.getElementById('wordcloud');
+        const maxCount = Math.max(...words.map(w => w.count));
+        words.forEach((w, i) => {
+            const span = document.createElement('span');
+            span.className = 'word-tag';
+            span.textContent = w.text;
+            const ratio = w.count / maxCount;
+            const size = 0.8 + ratio * 1.2;
+
+            span.style.fontSize = `${size}rem`;
+            // Pick a color
+            span.style.backgroundColor = cloudColors[i % cloudColors.length];
+            // Random opacity slightly to give depth? Or solid colors for cleaner look
+            // Meli style is usually solid colors.
+            span.style.opacity = '1';
+
+            if (w.text === 'falla' || w.text === 'cortes' || w.text === 'eco') {
+                span.style.backgroundColor = palette.meliRed;
+            } else if (w.text === 'excelente' || w.text === 'intuitiva') {
+                span.style.backgroundColor = palette.meliGreen;
+            }
+
+            container.appendChild(span);
+        });
+    </script>
+</body>
+
+</html>

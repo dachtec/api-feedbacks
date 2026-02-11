@@ -11,3 +11,8 @@
 ## CR-003: CI/CD y monitoreo diferidos
 **Contexto**: Se preguntó si implementar el pipeline CI/CD y monitoreo completo o dejarlo como documentación.
 **Corrección**: El usuario indicó dejar las canalizaciones y el monitoreo para una iteración futura.
+
+## CR-004: Corrección de enlaces rotos en informe de análisis
+**Contexto**: El documento `analysis/digest/feedback-analysis-report.md` tenía rutas o enlaces rotos.
+**Corrección**: El usuario solicitó revisar y ajustar las rutas. Se actualizaron a referencias relativas y se organizaron los recursos.
+
