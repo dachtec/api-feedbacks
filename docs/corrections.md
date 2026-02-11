@@ -16,3 +16,7 @@
 **Contexto**: El documento `analysis/digest/feedback-analysis-report.md` tenía rutas o enlaces rotos.
 **Corrección**: El usuario solicitó revisar y ajustar las rutas. Se actualizaron a referencias relativas y se organizaron los recursos.
 
+
+## CR-005: Actualización de la Tabla de Contenidos
+**Contexto**: La tabla de contenidos en el README.md no reflejaba el título actualizado de la sección de decisiones técnicas.
+**Corrección**: Se actualizó el índice para que coincida con el encabezado "Decisiones Técnicas Destacadas".

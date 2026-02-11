@@ -42,7 +42,7 @@ Presenta el contenido separado por secciones clave.
 Entrega la respuesta en un archivo Markdown.
 ```
 
-El prompt obtenido corresponde al archivo `.agent/rules/tech-requirements.md`.
+El prompt obtenido corresponde al archivo [.agent/rules/tech-requirements.md](../.agent/rules/tech-requirements.md).
 
 ### Tarea 3: Definir las reglas para el agente
 

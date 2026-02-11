@@ -16,16 +16,15 @@ API diseñada como solución al [challenge técnico](docs/challenge-context.md),
 
 ## 📑 Tabla de Contenidos
 
-- [🎯 Contexto del Proyecto](#-contexto-del-proyecto)
-- [🏗️ Arquitectura y Diseño](#️-arquitectura-y-diseño)
-- [⚙️ Decisiones Técnicas](#️-decisiones-técnicas)
-- [📌 Supuestos y Limitaciones](#-supuestos-y-limitaciones)
-- [🔧 Requisitos Previos](#-requisitos-previos)
-- [🚀 Instalación y Ejecución](#-instalación-y-ejecución)
-- [🧪 Pruebas con Postman](#-pruebas-con-postman)
-- [📖 Referencia Rápida de Endpoints](#-referencia-rápida-de-endpoints)
-- [💡 Ideas para Evolucionar el Proyecto](#-ideas-para-evolucionar-el-proyecto)
-- [📂 Estructura del Proyecto](#-estructura-del-proyecto)
+- 🎯 [Contexto del Proyecto](#-contexto-del-proyecto)
+- 🏗️ [Arquitectura y Diseño](#️-arquitectura-y-diseño)
+- ⚙️ [Decisiones Técnicas Destacadas](#️-decisiones-técnicas-destacadas)
+- 📌 [Supuestos y Limitaciones](#-supuestos-y-limitaciones)
+- 🔧 [Requisitos Previos](#-requisitos-previos)
+- 🚀 [Instalación y Ejecución](#-instalación-y-ejecución)
+- 🧪 [Pruebas con Postman](#-pruebas-con-postman)
+- 📖 [Referencia Rápida de Endpoints](#-referencia-rápida-de-endpoints)
+- 💡 [Ideas para Evolucionar el Proyecto](#-ideas-para-evolucionar-el-proyecto)
 
 ---
 
@@ -121,7 +120,7 @@ El proyecto implementa **Clean Architecture** con separación estricta de respon
 | TD-013 | Seed dinámico | Carga de datos semilla desde `seed-data.json` con `jq` |
 | TD-014 | Go 1.24 + air pinning | Actualización de Go, pinning de `air` y perfiles Docker Compose |
 
-> 📋 Ver detalle completo en [`tech-decisions.md`](docs/tech-decisions.md)
+> 📋 Ver detalle completo en [`tech-decisions.md`](docs/tech-decisions.md) y el prompt de [`tech-requirements.md`](.agent/rules/tech-requirements.md)
 
 ---
 
@@ -309,6 +308,7 @@ Todas las rutas están bajo el prefijo `/api/v1` y requieren el header `X-API-Ke
 ## 💡 Ideas para Evolucionar el Proyecto
 
 ### 🔜 Corto Plazo
+- **Internacionalización de la documentación** — Agregar documentación del proyecto en portugués e inglés.
 - **Paginación cursor-based** — Más eficiente que offset/limit para datasets grandes.
 - **Soft delete** — Marcar feedbacks como eliminados sin borrarlos físicamente.
 - **Endpoint DELETE** — Permitir la eliminación (lógica) de feedbacks.
@@ -335,4 +335,7 @@ Todas las rutas están bajo el prefijo `/api/v1` y requieren el header `X-API-Ke
 <p align="center">
   Desarrollado con 🤖 asistencia de IA + supervisión humana<br/>
   <sub>Ver trazabilidad completa en <a href="docs/PROMPTS.md">PROMPTS.md</a> y <a href="docs/sessions">sessions/</a></sub>
+  <br>
+  <br>
+  <sub><a href="https://github.com/ai-partners/personal-finance-manager">¿Te gustaría ver otra solución dónde obtuve una mención honorífica por Microsoft entre 570 propuestas a nivel mundial?</a></sub>
 </p>
