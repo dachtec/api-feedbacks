@@ -1,9 +1,9 @@
-FROM golang:1.23-alpine
+FROM golang:1.24-alpine
 
 RUN apk add --no-cache git curl
 
-# Install air for hot-reload
-RUN go install github.com/air-verse/air@latest
+# Install air for hot-reload (pinned to avoid Go version incompatibilities)
+RUN go install github.com/air-verse/air@v1.61.7
 
 WORKDIR /app
 

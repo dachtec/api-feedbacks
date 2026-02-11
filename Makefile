@@ -2,7 +2,7 @@
 
 # Build the application binary inside Docker
 build:
-	docker compose build app
+	docker compose --profile prod build app
 
 # Run production containers
 run: docker-up
@@ -25,19 +25,19 @@ lint:
 
 # Start production environment
 docker-up:
-	docker compose up -d --build
+	docker compose --profile prod up -d --build
 
 # Stop all containers
 docker-down:
-	docker compose down
+	docker compose --profile prod down
 
 # Stop all containers and remove volumes
 docker-clean:
-	docker compose down -v
+	docker compose --profile prod down -v
 
 # Display logs
 logs:
-	docker compose logs -f app
+	docker compose --profile prod logs -f app
 
 # Seed sample data
 seed:
@@ -45,5 +45,5 @@ seed:
 	@bash scripts/seed.sh
 
 clean:
-	docker compose down -v --rmi local
+	docker compose --profile prod --profile dev down -v --rmi local
 	rm -rf tmp/

@@ -16,6 +16,8 @@ services:
       db:
         condition: service_healthy
     restart: unless-stopped
+    profiles:
+      - prod
 
   app-dev:
     build:

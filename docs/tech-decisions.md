@@ -59,3 +59,14 @@
 **Contexto**: La función `runMigrations` en `cmd/server/main.go` tenía una migración SQL hardcodeada que no coincidía con el modelo de dominio actual: usaba `id UUID` como PK (en lugar de `feedback_id VARCHAR(10)`) y tipos en inglés (`suggestion`, `praise`, `question`) en lugar de los valores en español definidos en TD-010.
 **Decisión**: Actualizar la migración inline para que coincida con el archivo de migración canónico (`001_create_feedbacks.sql`) y el modelo de dominio.
 **Justificación**: La inconsistencia causaba errores 500 en todas las operaciones que interactuaban con la base de datos (Create, GetByID, Update, List). El `CREATE TABLE IF NOT EXISTS` impedía que la migración se auto-corrigiera al reiniciar la aplicación.
+
+## TD-013: Seed script dinámico desde archivo JSON
+**Contexto**: El script `seed.sh` tenía los datos de prueba hardcodeados directamente como llamadas curl individuales, dificultando su mantenimiento y sincronización con el dataset oficial.
+**Decisión**: Modificar `seed.sh` para leer dinámicamente los datos desde `docs/seed-data.json` usando `jq`, iterando sobre el array JSON y extrayendo solo los campos aceptados por la API (`user_id`, `feedback_type`, `rating`, `comment`).
+**Justificación**: Centraliza los datos semilla en un único archivo JSON, facilitando su actualización sin modificar el script. Agrega validaciones (existencia del archivo, dependencia de `jq`), reporte de progreso por entrada, y resumen de éxitos/fallos.
+
+## TD-014: Actualización a Go 1.24, pinning de air y perfiles Docker Compose
+**Contexto**: Los comandos `make dev`, `make test`, `make test-cover` y `make lint` fallaban porque `air@latest` (v1.64.5) requiere Go >= 1.25, pero los Dockerfiles usaban `golang:1.23-alpine`. Además, `make dev` generaba un conflicto de puerto 8080 porque `docker compose --profile dev up` iniciaba tanto el servicio `app` (producción) como `app-dev` (desarrollo) simultáneamente.
+**Decisión**: (1) Actualizar las imágenes base a `golang:1.24-alpine` en ambos Dockerfiles. (2) Pinar `air` a la versión `v1.61.7` en lugar de `@latest`. (3) Separar los servicios `app` y `app-dev` en perfiles Docker Compose (`prod` y `dev` respectivamente) para evitar conflictos de puerto.
+**Justificación**: Go 1.24 es la última versión estable disponible y es compatible con todas las dependencias del proyecto. El pinning de `air` previene roturas futuras por incompatibilidad de versión. Los perfiles de Docker Compose aseguran que solo se inicie el servicio correspondiente al modo de ejecución, eliminando conflictos de puerto y simplificando los comandos del Makefile.
+

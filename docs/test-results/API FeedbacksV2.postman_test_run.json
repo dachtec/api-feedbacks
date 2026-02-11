@@ -1,0 +1,2372 @@
+{
+	"id": "ab74b09e-9365-4f83-ada4-c50ebc1faa42",
+	"name": "API Feedbacks - Completa",
+	"timestamp": "2026-02-10T18:14:29.118Z",
+	"collection_id": "52251065-8edfe1b9-cd33-482f-aa12-5ce53fb5bc70",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 125,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-02-10T18:14:28.151Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "d45d20ff-73b0-4593-8da5-6f84a7c5ebe6",
+			"name": "Health Check",
+			"url": "http://localhost:8080/health",
+			"time": 2,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Status is ok": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status is ok": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Status is ok": true
+				}
+			]
+		},
+		{
+			"id": "9003a86a-5584-49af-83a6-dc948c2ea0f0",
+			"name": "Readiness Check",
+			"url": "http://localhost:8080/ready",
+			"time": 1,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Status is ready": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status is ready": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Status is ready": true
+				}
+			]
+		},
+		{
+			"id": "edcbe14d-183e-48df-9ffd-45b5f110598b",
+			"name": "Sin API Key → 401",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Status 401": true,
+				"Error UNAUTHORIZED": true
+			},
+			"testPassFailCounts": {
+				"Status 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error UNAUTHORIZED": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 401": true,
+					"Error UNAUTHORIZED": true
+				}
+			]
+		},
+		{
+			"id": "229111bc-3b24-4cbf-ab90-f1668b998dd8",
+			"name": "API Key Inválida → 401",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Status 401": true,
+				"Error UNAUTHORIZED": true
+			},
+			"testPassFailCounts": {
+				"Status 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error UNAUTHORIZED": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 401": true,
+					"Error UNAUTHORIZED": true
+				}
+			]
+		},
+		{
+			"id": "992d3442-31b2-4011-86c3-0c5597ea59b9",
+			"name": "API Key vacía → 401",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {
+				"Status 401": true,
+				"Error UNAUTHORIZED": true
+			},
+			"testPassFailCounts": {
+				"Status 401": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error UNAUTHORIZED": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 401": true,
+					"Error UNAUTHORIZED": true
+				}
+			]
+		},
+		{
+			"id": "a797cdc3-c53d-410f-915a-2f4dda9bd2eb",
+			"name": "Crear Feedback tipo bug",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 7,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status 201": true,
+				"Feedback creado correctamente": true
+			},
+			"testPassFailCounts": {
+				"Status 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Feedback creado correctamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Status 201": true,
+					"Feedback creado correctamente": true
+				}
+			]
+		},
+		{
+			"id": "f586cddd-ad44-4519-9377-63d4136dc245",
+			"name": "Crear Feedback tipo sugerencia",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status 201": true,
+				"Feedback creado correctamente": true
+			},
+			"testPassFailCounts": {
+				"Status 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Feedback creado correctamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 201": true,
+					"Feedback creado correctamente": true
+				}
+			]
+		},
+		{
+			"id": "d988f1ad-bd49-43f5-ba14-cc5fdcb46ffd",
+			"name": "Crear Feedback tipo elogio",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 3,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status 201": true,
+				"Feedback creado correctamente": true
+			},
+			"testPassFailCounts": {
+				"Status 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Feedback creado correctamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 201": true,
+					"Feedback creado correctamente": true
+				}
+			]
+		},
+		{
+			"id": "53b46c64-2c79-49a1-9abe-32966b720df3",
+			"name": "Crear Feedback tipo duda",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status 201": true,
+				"Feedback creado correctamente": true
+			},
+			"testPassFailCounts": {
+				"Status 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Feedback creado correctamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 201": true,
+					"Feedback creado correctamente": true
+				}
+			]
+		},
+		{
+			"id": "6851fcc0-8b06-4fe5-8cde-5acae00e20d7",
+			"name": "Crear Feedback tipo queja",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 3,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status 201": true,
+				"Feedback creado correctamente": true
+			},
+			"testPassFailCounts": {
+				"Status 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Feedback creado correctamente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 201": true,
+					"Feedback creado correctamente": true
+				}
+			]
+		},
+		{
+			"id": "c629ea8d-70a2-4cbc-a9c0-83dd72eca192",
+			"name": "Body vacío → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Errores de validación": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Errores de validación": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Errores de validación": true
+				}
+			]
+		},
+		{
+			"id": "2c19d093-8d46-4209-bebc-c4ab9f934a94",
+			"name": "Sin user_id → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error user_id": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error user_id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error user_id": true
+				}
+			]
+		},
+		{
+			"id": "ae6850aa-3d55-49ae-9aee-88a7779c41d9",
+			"name": "user_id formato inválido (usr-001) → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 1,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error user_id format": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error user_id format": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error user_id format": true
+				}
+			]
+		},
+		{
+			"id": "61b7ac37-0a96-4615-ab56-669e74ce301a",
+			"name": "user_id formato inválido (texto libre) → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error user_id": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error user_id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error user_id": true
+				}
+			]
+		},
+		{
+			"id": "2a46813b-0ce7-4c02-966e-b918b368b413",
+			"name": "feedback_type inválido → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 1,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error feedback_type": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error feedback_type": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error feedback_type": true
+				}
+			]
+		},
+		{
+			"id": "fb6f9db8-c42b-4a3b-a100-34e42f5fcf32",
+			"name": "feedback_type en inglés (suggestion) → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error feedback_type": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error feedback_type": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error feedback_type": true
+				}
+			]
+		},
+		{
+			"id": "768d086a-6f76-4953-aadd-cc7d9c0d3c11",
+			"name": "Rating fuera de rango (0) → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error rating": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error rating": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error rating": true
+				}
+			]
+		},
+		{
+			"id": "64d9829d-ece6-467f-b878-0191aff6ceae",
+			"name": "Rating fuera de rango (6) → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error rating": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error rating": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error rating": true
+				}
+			]
+		},
+		{
+			"id": "e1298bd0-13b9-4df6-8e68-e3b4105ce319",
+			"name": "Rating negativo (-1) → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error rating": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error rating": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error rating": true
+				}
+			]
+		},
+		{
+			"id": "9520591b-cccf-469e-a0f7-d780931446d9",
+			"name": "Comentario vacío → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error comment": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error comment": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error comment": true
+				}
+			]
+		},
+		{
+			"id": "5806fb6c-33a3-4896-819d-4aab41313f6b",
+			"name": "Comentario solo espacios → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 1,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error comment": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error comment": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error comment": true
+				}
+			]
+		},
+		{
+			"id": "b2bdba95-79a9-46ba-b139-4c8b96e8310c",
+			"name": "JSON malformado → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_JSON": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_JSON": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_JSON": true
+				}
+			]
+		},
+		{
+			"id": "709e2874-29d2-4c96-8b59-57057b254288",
+			"name": "Múltiples errores de validación → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Multiple validation errors": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Multiple validation errors": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Multiple validation errors": true
+				}
+			]
+		},
+		{
+			"id": "39c5ba30-0575-433a-9172-01247d7cbe37",
+			"name": "Comentario excede 2000 caracteres → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error comment length": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error comment length": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error comment length": true
+				}
+			]
+		},
+		{
+			"id": "97a1a41f-8bbf-42c8-8d1e-b525c1dfd8c8",
+			"name": "Obtener por ID (Happy Path)",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 2,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Feedback retornado": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Feedback retornado": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Feedback retornado": true
+				}
+			]
+		},
+		{
+			"id": "65833ac5-0d1a-41e9-a3aa-478ccc2dff8c",
+			"name": "ID inexistente → 404",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-9999",
+			"time": 6,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status 404": true,
+				"Error NOT_FOUND": true
+			},
+			"testPassFailCounts": {
+				"Status 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error NOT_FOUND": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Status 404": true,
+					"Error NOT_FOUND": true
+				}
+			]
+		},
+		{
+			"id": "44a3b98c-9177-4848-9f87-dc05c3e9c2d7",
+			"name": "ID con formato inválido → 404",
+			"url": "http://localhost:8080/api/v1/feedbacks/abc-invalid",
+			"time": 4,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status 404": true,
+				"Error NOT_FOUND": true
+			},
+			"testPassFailCounts": {
+				"Status 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error NOT_FOUND": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status 404": true,
+					"Error NOT_FOUND": true
+				}
+			]
+		},
+		{
+			"id": "b1fb6624-46a7-4540-9400-ebbd2df393ef",
+			"name": "Actualizar rating solamente",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Rating actualizado": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Rating actualizado": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Rating actualizado": true
+				}
+			]
+		},
+		{
+			"id": "2942134f-f23e-431e-b4f7-7e9cafd47ca6",
+			"name": "Actualizar comment solamente",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Comment actualizado": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Comment actualizado": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Comment actualizado": true
+				}
+			]
+		},
+		{
+			"id": "0f06b787-4131-48f1-bd16-e12dc5455d08",
+			"name": "Actualizar feedback_type solamente",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Type actualizado a elogio": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Type actualizado a elogio": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Type actualizado a elogio": true
+				}
+			]
+		},
+		{
+			"id": "a9cd4f59-d2e9-480b-80cf-423a26a328e6",
+			"name": "Actualizar múltiples campos",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Campos actualizados": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Campos actualizados": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Campos actualizados": true
+				}
+			]
+		},
+		{
+			"id": "248dae89-49e1-4425-9ef9-fe4fe670077b",
+			"name": "Verificar updated_at cambia",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"updated_at es reciente": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"updated_at es reciente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"updated_at es reciente": true
+				}
+			]
+		},
+		{
+			"id": "01405b08-5663-44f8-9cc1-97af6ace2c21",
+			"name": "Body vacío (sin campos) → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 1,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error EMPTY_UPDATE": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error EMPTY_UPDATE": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error EMPTY_UPDATE": true
+				}
+			]
+		},
+		{
+			"id": "4b75adb9-49d8-47d3-9fb0-a1668ad9b347",
+			"name": "ID inexistente → 404",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-9999",
+			"time": 2,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status 404": true,
+				"Error NOT_FOUND": true
+			},
+			"testPassFailCounts": {
+				"Status 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error NOT_FOUND": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 404": true,
+					"Error NOT_FOUND": true
+				}
+			]
+		},
+		{
+			"id": "77c6c337-f342-4d32-ae69-2e191958a386",
+			"name": "Rating inválido en update → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error": true
+				}
+			]
+		},
+		{
+			"id": "f420d56d-e311-4115-a66f-909ffc0812f0",
+			"name": "feedback_type inválido en update → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error": true
+				}
+			]
+		},
+		{
+			"id": "3c30d87e-a55d-4d03-9d97-43b8c0c3e2f3",
+			"name": "Comment vacío en update → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Validation error comment": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation error comment": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Validation error comment": true
+				}
+			]
+		},
+		{
+			"id": "3543ecb1-0566-4d4d-a917-9c37580a639b",
+			"name": "JSON malformado en update → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_JSON": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_JSON": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_JSON": true
+				}
+			]
+		},
+		{
+			"id": "9a1a8d65-a85f-44c8-a0a6-fae78d70201f",
+			"name": "Listar todos (sin filtros)",
+			"url": "http://localhost:8080/api/v1/feedbacks",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Respuesta con paginación": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respuesta con paginación": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Respuesta con paginación": true
+				}
+			]
+		},
+		{
+			"id": "07cff050-044e-43d4-abd3-6c9ecd260f5a",
+			"name": "Filtrar por user_id",
+			"url": "http://localhost:8080/api/v1/feedbacks?user_id=u-001",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Todos son del user_id": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Todos son del user_id": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Todos son del user_id": true
+				}
+			]
+		},
+		{
+			"id": "d3a80a89-8232-484b-bf1b-f2f615ae073a",
+			"name": "Filtrar por feedback_type",
+			"url": "http://localhost:8080/api/v1/feedbacks?feedback_type=bug",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Todos son tipo bug": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Todos son tipo bug": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Todos son tipo bug": true
+				}
+			]
+		},
+		{
+			"id": "734a6e10-92a8-440c-8102-49b5c5f3ae2d",
+			"name": "Filtrar por feedback_type sugerencia",
+			"url": "http://localhost:8080/api/v1/feedbacks?feedback_type=sugerencia",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Todos son tipo sugerencia": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Todos son tipo sugerencia": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Todos son tipo sugerencia": true
+				}
+			]
+		},
+		{
+			"id": "c89d39ff-2c10-4cf8-9a72-357b4a956371",
+			"name": "Filtrar por rango de rating",
+			"url": "http://localhost:8080/api/v1/feedbacks?min_rating=3&max_rating=5",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Ratings en rango 3-5": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Ratings en rango 3-5": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Ratings en rango 3-5": true
+				}
+			]
+		},
+		{
+			"id": "09ed703d-4050-4694-b552-79cf550cba86",
+			"name": "Filtrar por rango de fechas",
+			"url": "http://localhost:8080/api/v1/feedbacks?created_from=2026-01-01T00:00:00Z&created_to=2026-12-31T23:59:59Z",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Respuesta exitosa": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Respuesta exitosa": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Respuesta exitosa": true
+				}
+			]
+		},
+		{
+			"id": "9b9c9113-5c1b-45f2-a65a-a7ba8c758f60",
+			"name": "Filtrar solo min_rating",
+			"url": "http://localhost:8080/api/v1/feedbacks?min_rating=4",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Ratings >= 4": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Ratings >= 4": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Ratings >= 4": true
+				}
+			]
+		},
+		{
+			"id": "fba6a1d4-8898-40da-a883-5bbdfcd71364",
+			"name": "Filtrar solo max_rating",
+			"url": "http://localhost:8080/api/v1/feedbacks?max_rating=2",
+			"time": 3,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Ratings <= 2": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Ratings <= 2": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				3
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Ratings <= 2": true
+				}
+			]
+		},
+		{
+			"id": "38adbe3d-1e17-4a29-9760-f398c303a586",
+			"name": "Filtros combinados (user_id + type + rating)",
+			"url": "http://localhost:8080/api/v1/feedbacks?user_id=u-001&min_rating=1&max_rating=3&feedback_type=bug",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Filtros combinados aplicados": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Filtros combinados aplicados": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Filtros combinados aplicados": true
+				}
+			]
+		},
+		{
+			"id": "d47e62fa-bd87-4b42-a28d-1f17407ea931",
+			"name": "Paginación con limit y offset",
+			"url": "http://localhost:8080/api/v1/feedbacks?limit=2&offset=0",
+			"time": 2,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Paginación aplicada": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Paginación aplicada": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Paginación aplicada": true
+				}
+			]
+		},
+		{
+			"id": "2cb81db6-9bd2-453f-86e4-8f225aa78a8e",
+			"name": "Paginación segunda página",
+			"url": "http://localhost:8080/api/v1/feedbacks?limit=2&offset=2",
+			"time": 2,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Segunda página": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Segunda página": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Segunda página": true
+				}
+			]
+		},
+		{
+			"id": "2ebc261c-70f5-47f2-aec8-915a4e336add",
+			"name": "feedback_type inválido en filtro → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?feedback_type=invalid",
+			"time": 1,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "8d26989a-ac37-44e3-8e87-e0f798f4a163",
+			"name": "feedback_type en inglés en filtro → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?feedback_type=suggestion",
+			"time": 1,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "15f8b8db-c202-48c0-95aa-42340ca5ac2b",
+			"name": "min_rating no numérico → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?min_rating=abc",
+			"time": 1,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "0e2b24b2-9648-4957-b3b7-5883dba2d76c",
+			"name": "max_rating fuera de rango → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?max_rating=10",
+			"time": 1,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				1
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "9b87403c-991e-4540-80eb-f403166fdd6f",
+			"name": "min_rating fuera de rango (0) → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?min_rating=0",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "53aa5af7-2dc2-47dc-977e-eb347b16bf41",
+			"name": "created_from formato inválido → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?created_from=2026-01-01",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "2cb7f259-fc1d-4ac3-a843-ab131a9ff8fd",
+			"name": "created_to formato inválido → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?created_to=not-a-date",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "e576b576-9859-44cd-91d2-182040b287fd",
+			"name": "limit negativo → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?limit=-1",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "d3146b23-99a0-4de4-bc93-0d8d9aecccec",
+			"name": "limit no numérico → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?limit=abc",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "891cad3d-98e3-4d77-9b27-77269e416a98",
+			"name": "offset negativo → 400",
+			"url": "http://localhost:8080/api/v1/feedbacks?offset=-5",
+			"time": 2,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {
+				"Status 400": true,
+				"Error INVALID_FILTER": true
+			},
+			"testPassFailCounts": {
+				"Status 400": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Error INVALID_FILTER": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 400": true,
+					"Error INVALID_FILTER": true
+				}
+			]
+		},
+		{
+			"id": "da927615-4849-41fb-ad25-1a78064f31df",
+			"name": "user_id sin resultados → 200 vacío",
+			"url": "http://localhost:8080/api/v1/feedbacks?user_id=u-999",
+			"time": 2,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Array vacío": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Array vacío": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Array vacío": true
+				}
+			]
+		},
+		{
+			"id": "f9750e74-7ae3-4834-a24c-85a0dc9653e7",
+			"name": "Fechas sin resultados → 200 vacío",
+			"url": "http://localhost:8080/api/v1/feedbacks?created_from=2020-01-01T00:00:00Z&created_to=2020-01-02T00:00:00Z",
+			"time": 2,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status 200": true,
+				"Array vacío": true
+			},
+			"testPassFailCounts": {
+				"Status 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Array vacío": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 200": true,
+					"Array vacío": true
+				}
+			]
+		},
+		{
+			"id": "84f04a0e-a18b-4b0a-adde-54f29802dc89",
+			"name": "Ruta inexistente → 404/405",
+			"url": "http://localhost:8080/api/v1/nonexistent",
+			"time": 2,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {
+				"Status 404 o 405": true
+			},
+			"testPassFailCounts": {
+				"Status 404 o 405": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 404 o 405": true
+				}
+			]
+		},
+		{
+			"id": "f967a989-5780-44ab-a411-cfa4865a5996",
+			"name": "DELETE no soportado → 405",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 2,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed"
+			},
+			"tests": {
+				"Status 405": true
+			},
+			"testPassFailCounts": {
+				"Status 405": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 405": true
+				}
+			]
+		},
+		{
+			"id": "24d630e0-8373-4ebb-9fcf-fd5980adf08d",
+			"name": "PUT no soportado → 405",
+			"url": "http://localhost:8080/api/v1/feedbacks/f-0001",
+			"time": 2,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed"
+			},
+			"tests": {
+				"Status 405": true
+			},
+			"testPassFailCounts": {
+				"Status 405": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2
+			],
+			"allTests": [
+				{
+					"Status 405": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 173,
+	"collection": {
+		"requests": [
+			{
+				"id": "d45d20ff-73b0-4593-8da5-6f84a7c5ebe6",
+				"method": "GET"
+			},
+			{
+				"id": "9003a86a-5584-49af-83a6-dc948c2ea0f0",
+				"method": "GET"
+			},
+			{
+				"id": "edcbe14d-183e-48df-9ffd-45b5f110598b",
+				"method": "GET"
+			},
+			{
+				"id": "229111bc-3b24-4cbf-ab90-f1668b998dd8",
+				"method": "GET"
+			},
+			{
+				"id": "992d3442-31b2-4011-86c3-0c5597ea59b9",
+				"method": "GET"
+			},
+			{
+				"id": "a797cdc3-c53d-410f-915a-2f4dda9bd2eb",
+				"method": "POST"
+			},
+			{
+				"id": "f586cddd-ad44-4519-9377-63d4136dc245",
+				"method": "POST"
+			},
+			{
+				"id": "d988f1ad-bd49-43f5-ba14-cc5fdcb46ffd",
+				"method": "POST"
+			},
+			{
+				"id": "53b46c64-2c79-49a1-9abe-32966b720df3",
+				"method": "POST"
+			},
+			{
+				"id": "6851fcc0-8b06-4fe5-8cde-5acae00e20d7",
+				"method": "POST"
+			},
+			{
+				"id": "c629ea8d-70a2-4cbc-a9c0-83dd72eca192",
+				"method": "POST"
+			},
+			{
+				"id": "2c19d093-8d46-4209-bebc-c4ab9f934a94",
+				"method": "POST"
+			},
+			{
+				"id": "ae6850aa-3d55-49ae-9aee-88a7779c41d9",
+				"method": "POST"
+			},
+			{
+				"id": "61b7ac37-0a96-4615-ab56-669e74ce301a",
+				"method": "POST"
+			},
+			{
+				"id": "2a46813b-0ce7-4c02-966e-b918b368b413",
+				"method": "POST"
+			},
+			{
+				"id": "fb6f9db8-c42b-4a3b-a100-34e42f5fcf32",
+				"method": "POST"
+			},
+			{
+				"id": "768d086a-6f76-4953-aadd-cc7d9c0d3c11",
+				"method": "POST"
+			},
+			{
+				"id": "64d9829d-ece6-467f-b878-0191aff6ceae",
+				"method": "POST"
+			},
+			{
+				"id": "e1298bd0-13b9-4df6-8e68-e3b4105ce319",
+				"method": "POST"
+			},
+			{
+				"id": "9520591b-cccf-469e-a0f7-d780931446d9",
+				"method": "POST"
+			},
+			{
+				"id": "5806fb6c-33a3-4896-819d-4aab41313f6b",
+				"method": "POST"
+			},
+			{
+				"id": "b2bdba95-79a9-46ba-b139-4c8b96e8310c",
+				"method": "POST"
+			},
+			{
+				"id": "709e2874-29d2-4c96-8b59-57057b254288",
+				"method": "POST"
+			},
+			{
+				"id": "39c5ba30-0575-433a-9172-01247d7cbe37",
+				"method": "POST"
+			},
+			{
+				"id": "97a1a41f-8bbf-42c8-8d1e-b525c1dfd8c8",
+				"method": "GET"
+			},
+			{
+				"id": "65833ac5-0d1a-41e9-a3aa-478ccc2dff8c",
+				"method": "GET"
+			},
+			{
+				"id": "44a3b98c-9177-4848-9f87-dc05c3e9c2d7",
+				"method": "GET"
+			},
+			{
+				"id": "b1fb6624-46a7-4540-9400-ebbd2df393ef",
+				"method": "PATCH"
+			},
+			{
+				"id": "2942134f-f23e-431e-b4f7-7e9cafd47ca6",
+				"method": "PATCH"
+			},
+			{
+				"id": "0f06b787-4131-48f1-bd16-e12dc5455d08",
+				"method": "PATCH"
+			},
+			{
+				"id": "a9cd4f59-d2e9-480b-80cf-423a26a328e6",
+				"method": "PATCH"
+			},
+			{
+				"id": "248dae89-49e1-4425-9ef9-fe4fe670077b",
+				"method": "PATCH"
+			},
+			{
+				"id": "01405b08-5663-44f8-9cc1-97af6ace2c21",
+				"method": "PATCH"
+			},
+			{
+				"id": "4b75adb9-49d8-47d3-9fb0-a1668ad9b347",
+				"method": "PATCH"
+			},
+			{
+				"id": "77c6c337-f342-4d32-ae69-2e191958a386",
+				"method": "PATCH"
+			},
+			{
+				"id": "f420d56d-e311-4115-a66f-909ffc0812f0",
+				"method": "PATCH"
+			},
+			{
+				"id": "3c30d87e-a55d-4d03-9d97-43b8c0c3e2f3",
+				"method": "PATCH"
+			},
+			{
+				"id": "3543ecb1-0566-4d4d-a917-9c37580a639b",
+				"method": "PATCH"
+			},
+			{
+				"id": "9a1a8d65-a85f-44c8-a0a6-fae78d70201f",
+				"method": "GET"
+			},
+			{
+				"id": "07cff050-044e-43d4-abd3-6c9ecd260f5a",
+				"method": "GET"
+			},
+			{
+				"id": "d3a80a89-8232-484b-bf1b-f2f615ae073a",
+				"method": "GET"
+			},
+			{
+				"id": "734a6e10-92a8-440c-8102-49b5c5f3ae2d",
+				"method": "GET"
+			},
+			{
+				"id": "c89d39ff-2c10-4cf8-9a72-357b4a956371",
+				"method": "GET"
+			},
+			{
+				"id": "09ed703d-4050-4694-b552-79cf550cba86",
+				"method": "GET"
+			},
+			{
+				"id": "9b9c9113-5c1b-45f2-a65a-a7ba8c758f60",
+				"method": "GET"
+			},
+			{
+				"id": "fba6a1d4-8898-40da-a883-5bbdfcd71364",
+				"method": "GET"
+			},
+			{
+				"id": "38adbe3d-1e17-4a29-9760-f398c303a586",
+				"method": "GET"
+			},
+			{
+				"id": "d47e62fa-bd87-4b42-a28d-1f17407ea931",
+				"method": "GET"
+			},
+			{
+				"id": "2cb81db6-9bd2-453f-86e4-8f225aa78a8e",
+				"method": "GET"
+			},
+			{
+				"id": "2ebc261c-70f5-47f2-aec8-915a4e336add",
+				"method": "GET"
+			},
+			{
+				"id": "8d26989a-ac37-44e3-8e87-e0f798f4a163",
+				"method": "GET"
+			},
+			{
+				"id": "15f8b8db-c202-48c0-95aa-42340ca5ac2b",
+				"method": "GET"
+			},
+			{
+				"id": "0e2b24b2-9648-4957-b3b7-5883dba2d76c",
+				"method": "GET"
+			},
+			{
+				"id": "9b87403c-991e-4540-80eb-f403166fdd6f",
+				"method": "GET"
+			},
+			{
+				"id": "53aa5af7-2dc2-47dc-977e-eb347b16bf41",
+				"method": "GET"
+			},
+			{
+				"id": "2cb7f259-fc1d-4ac3-a843-ab131a9ff8fd",
+				"method": "GET"
+			},
+			{
+				"id": "e576b576-9859-44cd-91d2-182040b287fd",
+				"method": "GET"
+			},
+			{
+				"id": "d3146b23-99a0-4de4-bc93-0d8d9aecccec",
+				"method": "GET"
+			},
+			{
+				"id": "891cad3d-98e3-4d77-9b27-77269e416a98",
+				"method": "GET"
+			},
+			{
+				"id": "da927615-4849-41fb-ad25-1a78064f31df",
+				"method": "GET"
+			},
+			{
+				"id": "f9750e74-7ae3-4834-a24c-85a0dc9653e7",
+				"method": "GET"
+			},
+			{
+				"id": "84f04a0e-a18b-4b0a-adde-54f29802dc89",
+				"method": "GET"
+			},
+			{
+				"id": "f967a989-5780-44ab-a411-cfa4865a5996",
+				"method": "DELETE"
+			},
+			{
+				"id": "24d630e0-8373-4ebb-9fcf-fd5980adf08d",
+				"method": "PUT"
+			}
+		]
+	}
+}
